@@ -58,6 +58,10 @@ def spawn_monster(monsters):
     name, stats = random.choice(list(monsters.items()))
     return name, stats
 
+def spawn_boss(Bosses):
+    Bname, Bstats = random.choice(list(Bosses.items()))
+    return Bname, Bstats
+
 def player_stats(player):
     for x, y in player.items():
         print(f"{x}: {y}")
@@ -83,8 +87,9 @@ def player_atk(Mhp, Patk):
 def enemy_atk(Php, Matk):
     damage = random.randint(5, Matk)
     final_damage = damage - Pdef
+    itspi = player["Hp"]
     Php -= final_damage
-    Php = max(0, min(Php, 25))
+    Php = max(0, min(Php, itspi))
     print(f"The monster dealt {final_damage} damage to you!")
     print(f"Your HP has dropped to {Php}\n")
     return Php
@@ -110,11 +115,17 @@ monsters = {
     "PsogiM": {"Hp": 40, "Atk": 11, "Def": 6,"Gold": 2,"Exp": 5}
 }
 
+Bosses = {
+    "Toriel": {"Hp": 80, "Atk": 15, "Def": 6,"Gold": 1000,"Exp": 1000},
+    "Asgore": {"Hp": 150, "Atk": 18, "Def": 12,"Gold": 5000,"Exp": 10000},
+    "Undyne": {"Hp": 120, "Atk": 17, "Def": 8,"Gold": 2500,"Exp": 7500},
+    "Sans": {"Hp": 100, "Atk": 10, "Def": 7,"Gold": 2000,"Exp": 5500}
+}
+
 Php = player["Hp"]
 Patk = player["Atk"]
 Pdef = player["Def"]
 stage = 1
-kills = 0
 max_kills = 4
 while True:
     UI()
@@ -142,12 +153,13 @@ while True:
                         player.update({"Class": cl})
                         player.update({"Hp": hp})
                         player.update({"Def": df})
+                        Pdef = player["Def"]
+                        Php = player["Hp"]
                         print("\nPerfect! Now then...")
                         Move()
                         move = input("What should be your next Move? [1/2/3]: ")
                         if move == "1":
                             kills = 0
-                            max_kills = 4
                             print(f"\nYou've now entered Dungeon {stage}")
 
                             Mname, Mstats = spawn_monster(monsters)
@@ -177,6 +189,7 @@ while True:
                                         if kills >= max_kills:
                                             print("Dungeon Cleared!")
                                             stage += 1
+                                            max_kills += 2
                                             break
                                         
                                         Mname, Mstats = spawn_monster(monsters)
@@ -254,12 +267,13 @@ while True:
                         player.update({"Class": cl})
                         player.update({"Hp": hp})
                         player.update({"Atk": atk})
+                        Patk = player["Atk"]
+                        Php = player["Hp"]
                         print("\nPerfect! Now then...")
                         Move()
                         move = input("What should be your next Move? [1/2/3]: ")
                         if move == "1":
                             kills = 0
-                            max_kills = 4
                             print(f"\nYou've now entered Dungeon {stage}")
 
                             Mname, Mstats = spawn_monster(monsters)
@@ -289,6 +303,7 @@ while True:
                                         if kills >= max_kills:
                                             print("Dungeon Cleared!")
                                             stage += 1
+                                            max_kills += 2
                                             break
                                         
                                         Mname, Mstats = spawn_monster(monsters)
@@ -325,7 +340,7 @@ while True:
                                         if player["Inventory"]["Potion"] > 0:
                                             player["Hp"] += 10
                                             
-                                            player["Hp"] = min(player["Hp"], 25)
+                                            player["Hp"] = min(player["Hp"], 20)
                                             Php = player["Hp"]
                                             player["Inventory"]["Potion"] -= 1
                         
@@ -367,12 +382,15 @@ while True:
                         player.update({"Class": cl})
                         player.update({"Hp": hp})
                         player.update({"Def": df})
+                        Patk = player["Atk"]
+                        Pdef = player["Def"]
+                        Php = player["Hp"]
+                        player["Inventory"]["Potion"] = 7
                         print("\nPerfect! Now then...")
                         Move()
                         move = input("What should be your next Move? [1/2/3]: ")
                         if move == "1":
                             kills = 0
-                            max_kills = 4
                             print(f"\nYou've now entered Dungeon {stage}")
 
                             Mname, Mstats = spawn_monster(monsters)
@@ -402,6 +420,7 @@ while True:
                                         if kills >= max_kills:
                                             print("Dungeon Cleared!")
                                             stage += 1
+                                            max_kills += 2
                                             break
                                         
                                         Mname, Mstats = spawn_monster(monsters)
@@ -436,9 +455,9 @@ while True:
 
                                     if item_choice == "1":
                                         if player["Inventory"]["Potion"] > 0:
-                                            player["Hp"] += 10
+                                            player["Hp"] += 25
                                             
-                                            player["Hp"] = min(player["Hp"], 25)
+                                            player["Hp"] = min(player["Hp"], 30)
                                             Php = player["Hp"]
                                             player["Inventory"]["Potion"] -= 1
                         
