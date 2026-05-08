@@ -41,6 +41,8 @@ def buy_item(player, shop):
 
         show_shop(shop)
 
+        print(f"Current Gold: {player["Gold"]}")
+
         choice = input("What do you want to buy?: ")
 
         if choice == "1":
