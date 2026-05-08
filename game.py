@@ -151,24 +151,24 @@ def player_stats(player):
 def rewards(player, Mstats):
 
     gold = Mstats["Gold"]
-    exp = Mstats["Exp"]
+    Skill_points = Mstats["Skill Points"]
 
     player["Gold"] += gold
-    player["Exp"] += exp
+    player["Skill Points"] += Skill_points
 
     print(f"You gained {gold} Gold!")
-    print(f"You gained {exp} EXP!\n")
+    print(f"You gained {Skill_points} Skill Points!\n")
 
 def boss_rewards(player, Bstats):
 
     gold = Bstats["Gold"]
-    exp = Bstats["Exp"]
+    Skill_points = Bstats["Skill Points"]
 
     player["Gold"] += gold
-    player["Exp"] += exp
+    player["Skill Points"] += Skill_points
 
     print(f"You gained {gold} Gold!")
-    print(f"You gained {exp} EXP!\n")
+    print(f"You gained {Skill_points} Skill Points!\n")
 
 def player_atk(Mhp, Patk):
     Pdamage = Patk - Mdef
@@ -212,7 +212,7 @@ player = {
     "Atk": 18,
     "Def": 5,
     "Gold": 0,
-    "Exp": 0,
+    "Skill Points": 0,
     "Inventory" : {
     "Potion": 3
     }
@@ -233,23 +233,23 @@ shop = {
 }
 
 monsters = {
-    "TiggorF": {"Hp": 30, "Atk": 15, "Def": 5,"Gold": 20,"Exp": 10},
-    "NusmihW": {"Hp": 10, "Atk": 17, "Def": 2,"Gold": 2,"Exp": 2},
-    "XooL": {"Hp": 50, "Atk": 16, "Def": 8,"Gold": 5,"Exp": 7},
-    "PsogiM": {"Hp": 40, "Atk": 16, "Def": 6,"Gold": 2,"Exp": 5}
+    "TiggorF": {"Hp": 30, "Atk": 15, "Def": 5,"Gold": 20,"Skill Points": 10},
+    "NusmihW": {"Hp": 10, "Atk": 17, "Def": 2,"Gold": 2,"Skill Points": 2},
+    "XooL": {"Hp": 50, "Atk": 16, "Def": 8,"Gold": 5,"Skill Points": 7},
+    "PsogiM": {"Hp": 40, "Atk": 16, "Def": 6,"Gold": 2,"Skill Points": 5}
 }
 
 Bosses = {
-    "Toriel": {"Hp": 80, "Atk": 22, "Def": 6,"Gold": 1000,"Exp": 1000},
-    "Asgore": {"Hp": 150, "Atk": 23, "Def": 12,"Gold": 5000,"Exp": 10000},
-    "Undyne": {"Hp": 120, "Atk": 22, "Def": 8,"Gold": 2500,"Exp": 7500},
-    "Sans": {"Hp": 100, "Atk": 21, "Def": 7,"Gold": 2000,"Exp": 5500}
+    "Toriel": {"Hp": 80, "Atk": 22, "Def": 6,"Gold": 1000,"Skill Points": 1000},
+    "Asgore": {"Hp": 150, "Atk": 23, "Def": 12,"Gold": 5000,"Skill Points": 10000},
+    "Undyne": {"Hp": 120, "Atk": 22, "Def": 8,"Gold": 2500,"Skill Points": 7500},
+    "Sans": {"Hp": 100, "Atk": 21, "Def": 7,"Gold": 2000,"Skill Points": 5500}
 }
 
 Php = player["Hp"]
 Patk = player["Atk"]
 Pdef = player["Def"]
-stage = 3
+stage = 1
 max_kills = 4
 while True:
     UI()
@@ -283,8 +283,9 @@ while True:
                         Move()
                         move = input("What should be your next Move? [1/2/3]: ")
                         if move == "1":
+                            print(f"\nYou've now entered Dungeon {stage}")
                             if stage >= 3:
-                                print(f"\nYou've now entered Dungeon {stage}")
+                                print(f"\n=====BOSS BATTLE=====")
 
                                 Bname, Bstats = spawn_boss(Bosses)
                                 Bhp = Bstats["Hp"]
@@ -323,16 +324,16 @@ while True:
                                             print(f"{Bname}:{Bstats}")
 
                                         elif act_choice == "2":
-                                            if player["Exp"] >= 100:
+                                            if player["Skill Points"] >= 100:
                                                 dmg = player["Atk"] * 2
                                                 print("Power Strike! Massive damage!")
                                                 Bhp -= dmg
-                                                player["Exp"] -= 100
+                                                player["Skill Points"] -= 100
                                                 
                                                 print(f"You dealt {dmg} damage!")
                                             
                                             else:
-                                                print("Not Enough EXP!")
+                                                print("Not Enough Skill Points!")
 
                                         elif act_choice == "3":
                                             print(f"You intimidated {Bname}!")
@@ -377,7 +378,6 @@ while True:
                                             continue
                             else:
                                 kills = 0
-                                print(f"\nYou've now entered Dungeon {stage}")
 
                                 Mname, Mstats = spawn_monster(monsters)
                                 Mhp = Mstats["Hp"]
@@ -427,16 +427,16 @@ while True:
                                             print(f"{Mname}:{Mstats}")
 
                                         elif act_choice == "2":
-                                            if player["Exp"] >= 100:
+                                            if player["Skill Points"] >= 100:
                                                 dmg = player["Atk"] * 2
                                                 print("Power Strike! Massive damage!")
                                                 Mhp -= dmg
-                                                player["Exp"] -= 100
+                                                player["Skill Points"] -= 100
                                                 
                                                 print(f"You dealt {dmg} damage!")
                                             
                                             else:
-                                                print("Not Enough EXP!")
+                                                print("Not Enough Skill Points!")
 
                                         elif act_choice == "3":
                                             print(f"You intimidated {Mname}!")
@@ -510,8 +510,9 @@ while True:
                         Move()
                         move = input("What should be your next Move? [1/2/3]: ")
                         if move == "1":
+                            print(f"\nYou've now entered Dungeon {stage}")
                             if stage >= 3:
-                                print(f"\nYou've now entered Dungeon {stage}")
+                                print(f"\n=====BOSS BATTLE=====")
 
                                 Bname, Bstats = spawn_boss(Bosses)
                                 Bhp = Bstats["Hp"]
@@ -550,16 +551,16 @@ while True:
                                             print(f"{Bname}:{Bstats}")
 
                                         elif act_choice == "2":
-                                            if player["Exp"] >= 100:
+                                            if player["Skill Points"] >= 100:
                                                 dmg = player["Atk"] * 2
                                                 print("Power Strike! Massive damage!")
                                                 Bhp -= dmg
-                                                player["Exp"] -= 100
+                                                player["Skill Points"] -= 100
                                                 
                                                 print(f"You dealt {dmg} damage!")
                                             
                                             else:
-                                                print("Not Enough EXP!")
+                                                print("Not Enough Skill Points!")
 
                                         elif act_choice == "3":
                                             print(f"You intimidated {Bname}!")
@@ -604,7 +605,6 @@ while True:
                                             continue
                             else:
                                 kills = 0
-                                print(f"\nYou've now entered Dungeon {stage}")
 
                                 Mname, Mstats = spawn_monster(monsters)
                                 Mhp = Mstats["Hp"]
@@ -654,15 +654,15 @@ while True:
                                             print(f"{Mname}:{Mstats}")
 
                                         elif act_choice == "2":
-                                            if player["Exp"] >= 100:
+                                            if player["Skill Points"] >= 100:
                                                 dmg = player["Atk"] + 100
                                                 print("Execution!")
                                                 Mhp -= dmg
                                                 print(f"You dealt {dmg} damage!")
-                                                player["Exp"] -= 100
+                                                player["Skill Points"] -= 100
 
                                             else:
-                                                print("Not Enough EXP!")
+                                                print("Not Enough Skill Points!")
 
                                         elif act_choice == "3":
                                             print(f"You intimidated {Mname}!")
@@ -738,8 +738,9 @@ while True:
                         Move()
                         move = input("What should be your next Move? [1/2/3]: ")
                         if move == "1":
+                            print(f"\nYou've now entered Dungeon {stage}")
                             if stage >= 3:
-                                print(f"\nYou've now entered Dungeon {stage}")
+                                print(f"\n=====BOSS BATTLE=====")
 
                                 Bname, Bstats = spawn_boss(Bosses)
                                 Bhp = Bstats["Hp"]
@@ -778,16 +779,16 @@ while True:
                                             print(f"{Bname}:{Bstats}")
 
                                         elif act_choice == "2":
-                                            if player["Exp"] >= 100:
+                                            if player["Skill Points"] >= 100:
                                                 dmg = player["Atk"] * 2
                                                 print("Power Strike! Massive damage!")
                                                 Bhp -= dmg
-                                                player["Exp"] -= 100
+                                                player["Skill Points"] -= 100
                                                 
                                                 print(f"You dealt {dmg} damage!")
                                             
                                             else:
-                                                print("Not Enough EXP!")
+                                                print("Not Enough Skill Points!")
 
                                         elif act_choice == "3":
                                             print(f"You intimidated {Bname}!")
@@ -832,7 +833,6 @@ while True:
                                             continue
                             else:
                                 kills = 0
-                                print(f"\nYou've now entered Dungeon {stage}")
 
                                 Mname, Mstats = spawn_monster(monsters)
                                 Mhp = Mstats["Hp"]
@@ -883,15 +883,15 @@ while True:
                                             print(f"{Mname}:{Mstats}")
 
                                         elif act_choice == "2":
-                                            if player["Exp"] >= 100:
+                                            if player["Skill Points"] >= 100:
                                                 heal = player["Hp"] * random.choice([1, 2, 3])
                                                 print("Flawless Heal!")
                                                 player["Hp"] = heal
                                                 Php = heal
-                                                player["Exp"] -= 100
+                                                player["Skill Points"] -= 100
                                                 print(f"Your HP is now {player['Hp']}")
                                             else:
-                                                print("Not Enough EXP!")
+                                                print("Not Enough Skill Points!")
 
                                         elif act_choice == "3":
                                             print(f"You intimidated {Mname}!")
