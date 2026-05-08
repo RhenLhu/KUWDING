@@ -108,6 +108,7 @@ def Move():
     print("[1] Enter Dungeon")
     print("[2] Check Stats")
     print("[3] Go to Shop")
+    print("[4] Items")
 
 def Battle():
     print("[1] Fight")
@@ -130,6 +131,26 @@ def Item():
         i += 1
         continue
     print(f"[{i}] Exit")
+
+def use_item(player, item_name):
+
+    if item_name in player["Inventory"]:
+
+        if item_name == "True Knife (+Atk)":
+
+            player["Atk"] += 40
+
+            print("You equipped True Knife!")
+            print("Attack increased by 40!")
+            del player["Inventory"]["True Knife (+Atk)"]
+
+        elif item_name == "Heart Locket (+Def)":
+
+            player["Def"] += 40
+
+            print("You equipped Heart Locket!")
+            print("Defense increased by 40!")
+            del player["Inventory"]["Heart Locket (+Def)"]
 
 def Spare():
     print("\n=== Spare ===")
@@ -211,7 +232,7 @@ player = {
     "Hp": 25,
     "Atk": 18,
     "Def": 5,
-    "Gold": 0,
+    "Gold": 1000,
     "Skill Points": 0,
     "Inventory" : {
     "Potion": 3
@@ -281,7 +302,7 @@ while True:
                         Php = player["Hp"]
                         print("\nPerfect! Now then...")
                         Move()
-                        move = input("What should be your next Move? [1/2/3]: ")
+                        move = input("What should be your next Move? [1/2/3/4]: ")
                         if move == "1":
                             print(f"\nYou've now entered Dungeon {stage}")
                             if stage >= 3:
@@ -466,6 +487,7 @@ while True:
 
                                         elif item_choice == "2":
                                             continue
+                                            
 
                                     elif battle == "4":
                                         Spare()
@@ -496,6 +518,37 @@ while True:
                             else:
                                 print("Invalid!")
 
+                        elif move == "4":
+                            Item()
+                            item_choice = input("Choose item: ")
+
+                            if item_choice == "1":
+                                if player["Inventory"]["Potion"] > 0:
+                                    player["Hp"] += 10
+                                                
+                                    player["Hp"] = min(player["Hp"], 25)
+                                    Php = player["Hp"]
+                                    player["Inventory"]["Potion"] -= 1
+                            
+                                    print("You used a Potion!")
+                                    print(f"Your HP is now {player['Hp']}")
+                                    print(f"Potions left: {player['Inventory']['Potion']}")
+
+                                else:
+                                    print("No Potions left!")
+
+                            elif item_choice == "2":
+                                use_item(player, "True Knife (+Atk)")
+
+                            elif item_choice == "3":
+                                use_item(player, "Heart Locket (+Def)")
+
+                            elif item_choice == "4":
+                                continue
+
+                            else:
+                                print("Invalid!")
+
 
                     elif class_choice == "2":
                         cl = "Assassin"
@@ -508,7 +561,7 @@ while True:
                         Php = player["Hp"]
                         print("\nPerfect! Now then...")
                         Move()
-                        move = input("What should be your next Move? [1/2/3]: ")
+                        move = input("What should be your next Move? [1/2/3/4]: ")
                         if move == "1":
                             print(f"\nYou've now entered Dungeon {stage}")
                             if stage >= 3:
@@ -722,6 +775,37 @@ while True:
                             else:
                                 print("Invalid!")
 
+                        elif move == "4":
+                            Item()
+                            item_choice = input("Choose item: ")
+
+                            if item_choice == "1":
+                                if player["Inventory"]["Potion"] > 0:
+                                    player["Hp"] += 10
+                                                
+                                    player["Hp"] = min(player["Hp"], 25)
+                                    Php = player["Hp"]
+                                    player["Inventory"]["Potion"] -= 1
+                            
+                                    print("You used a Potion!")
+                                    print(f"Your HP is now {player['Hp']}")
+                                    print(f"Potions left: {player['Inventory']['Potion']}")
+
+                                else:
+                                    print("No Potions left!")
+
+                            elif item_choice == "2":
+                                use_item(player, "True Knife (+Atk)")
+
+                            elif item_choice == "3":
+                                use_item(player, "Heart Locket (+Def)")
+                            
+                            elif item_choice == "4":
+                                continue
+
+                            else:
+                                print("Invalid!")
+
                     elif class_choice == "3":
                         cl = "Healer"
                         hp = 30
@@ -736,7 +820,7 @@ while True:
                         player["Inventory"]["Potion"] = 7
                         print("\nPerfect! Now then...")
                         Move()
-                        move = input("What should be your next Move? [1/2/3]: ")
+                        move = input("What should be your next Move? [1/2/3/4]: ")
                         if move == "1":
                             print(f"\nYou've now entered Dungeon {stage}")
                             if stage >= 3:
@@ -948,6 +1032,37 @@ while True:
                             elif decision == "2":
                                 print("Come Again! ^^")
                                 break
+                            else:
+                                print("Invalid!")
+
+                        elif move == "4":
+                            Item()
+                            item_choice = input("Choose item: ")
+
+                            if item_choice == "1":
+                                if player["Inventory"]["Potion"] > 0:
+                                    player["Hp"] += 10
+                                                
+                                    player["Hp"] = min(player["Hp"], 25)
+                                    Php = player["Hp"]
+                                    player["Inventory"]["Potion"] -= 1
+                            
+                                    print("You used a Potion!")
+                                    print(f"Your HP is now {player['Hp']}")
+                                    print(f"Potions left: {player['Inventory']['Potion']}")
+
+                                else:
+                                    print("No Potions left!")
+
+                            elif item_choice == "2":
+                                use_item(player, "True Knife (+Atk)")
+
+                            elif item_choice == "3":
+                                use_item(player, "Heart Locket (+Def)")
+
+                            elif item_choice == "4":
+                                continue
+
                             else:
                                 print("Invalid!")
 
