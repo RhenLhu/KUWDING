@@ -121,9 +121,13 @@ def Act():
     print("[4] Back")
 
 def Item():
+    i = 1
     print("\n=== Item ===")
     for item, amount in player["Inventory"].items():
-        print(f"{item}: {amount}")
+        print(f"[{i}] {item}: {amount}")
+        i += 1
+        continue
+    print(f"[{i}] Exit")
 
 def Spare():
     print("\n=== Spare ===")
