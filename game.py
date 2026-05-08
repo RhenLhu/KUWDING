@@ -225,7 +225,7 @@ while True:
         if choice == "1":
             print("\nYou are now playing the game")
             Pn = input("Please enter Player name: ").capitalize()
-            print(f"\nWelcome To The Game {Pn}!")
+            print(f"\nWelcome To The Game, {Pn}!")
             player.update({"Name": Pn})
 
             UI2()
