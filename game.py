@@ -23,8 +23,84 @@ def ShopUI():
     print("\nWelcome to The Shop!!")
     print("How Can I help You")
     print("[1] Buy")
-    print("[2] Sell")
-    print("[3] Exit")
+    print("[2] Exit")
+
+def show_shop(shop):
+    i = 1
+    print("\n=== SHOP ===")
+
+    for item, info in shop.items():
+        print(f"[{i}] {item} - {info['Price']} Gold")
+        i += 1
+        continue
+    print(f"[{i}] Exit")
+
+def buy_item(player, shop):
+
+    while True:
+
+        show_shop(shop)
+
+        choice = input("What do you want to buy?: ")
+
+        if choice == "1":
+
+            item_name = "Potion"
+            price = shop[item_name]["Price"]
+
+            if player["Gold"] >= price:
+
+                player["Gold"] -= price
+                player["Inventory"]["Potion"] += 1
+
+                print(f"You bought {item_name}!")
+
+            else:
+                print("Not enough Gold!")
+
+        elif choice == "2":
+
+            item_name = "True Knife (+Atk)"
+            price = shop[item_name]["Price"]
+
+            if player["Gold"] >= price:
+
+                player["Gold"] -= price
+
+                if item_name in player["Inventory"]:
+                    print("You already own this item!")
+                else:
+                    player["Inventory"][item_name] = 1
+
+                print(f"You bought {item_name}!")
+
+            else:
+                print("Not enough Gold!")
+
+        elif choice == "3":
+
+            item_name = "Heart Locket (+Def)"
+            price = shop[item_name]["Price"]
+
+            if player["Gold"] >= price:
+
+                player["Gold"] -= price
+
+                if item_name in player["Inventory"]:
+                    print("You already own this item!")
+                else:
+                    player["Inventory"][item_name] = 1
+
+                print(f"You bought {item_name}!")
+
+            else:
+                print("Not enough Gold!")
+
+        elif choice == "4":
+            break
+
+        else:
+            print("Invalid choice!")
 
 def Move():
     print("[1] Enter Dungeon")
@@ -40,14 +116,14 @@ def Battle():
 def Act():
     print("\n=== Act ===")
     print("[1] Check")
-    print("[2] Dodge")
+    print("[2] Use Special Skill!!")
     print("[3] Intimidate")
     print("[4] Back")
 
 def Item():
-    print("\n=== Items ===")
-    print("[1] Potion (Heals 10 HP)")
-    print("[2] Back\n")
+    print("\n=== Item ===")
+    for item, amount in player["Inventory"].items():
+        print(f"{item}: {amount}")
 
 def Spare():
     print("\n=== Spare ===")
@@ -84,6 +160,25 @@ def player_atk(Mhp, Patk):
     print(f"{Mname} HP is now {Mhp}\n")
     return Mhp
 
+def use_skill(player):
+    global Mhp
+    if player["Class"] == "Fighter":
+        dmg = player["atk"] * 2
+        print("Power Strike! Massive damage!")
+    elif player["Class"] == "Assassin":
+        dmg = player["atk"] + 100
+        print("Execution!")
+    elif player["Class"] == "Healer":
+        heal = player["Hp"] * random.choice([1, 2, 3])
+        print("Flawless Heal!")
+    else:
+        dmg = player["atk"]
+
+    player["Hp"] = heal
+    Mhp -= dmg
+    Bosses["Hp"] -= dmg
+    print(f"You dealt {dmg} damage!")
+
 def enemy_atk(Php, Matk):
     damage = random.randint(5, Matk)
     final_damage = damage - Pdef
@@ -101,10 +196,24 @@ player = {
     "Hp": 25,
     "Atk": 18,
     "Def": 5,
-    "Gold": 0,
+    "Gold": 10000,
     "Exp": 0,
     "Inventory" : {
     "Potion": 3
+    }
+}
+
+shop = {
+    "Potion": {
+        "Price": 25
+    },
+
+    "True Knife (+Atk)": {
+        "Price": 700
+    },
+
+    "Heart Locket (+Def)": {
+        "Price": 650
     }
 }
 
@@ -209,7 +318,11 @@ while True:
                                         print(f"{Mname}:{Mstats}")
 
                                     elif act_choice == "2":
-                                        print("")
+                                        dmg = player["atk"] * 2
+                                        print("Power Strike! Massive damage!")
+                                        Mhp -= dmg
+                                        
+                                        print(f"You dealt {dmg} damage!")
 
                                     elif act_choice == "3":
                                         print(f"You intimidated {Mname}!")
@@ -258,7 +371,17 @@ while True:
                             player_stats(player)
 
                         elif move == "3":
-                            pass
+                            ShopUI()
+                            decision = input("Choose! [1/2]: ")
+                            if decision == "1":
+                                buy_item(player, shop)
+
+                            elif decision == "2":
+                                print("Come Again! ^^")
+                                break
+                            else:
+                                print("Invalid!")
+
 
                     elif class_choice == "2":
                         cl = "Assassin"
@@ -323,7 +446,10 @@ while True:
                                         print(f"{Mname}:{Mstats}")
 
                                     elif act_choice == "2":
-                                        print("")
+                                        dmg = player["atk"] + 100
+                                        print("Execution!")
+                                        Mhp -= dmg
+                                        print(f"You dealt {dmg} damage!")
 
                                     elif act_choice == "3":
                                         print(f"You intimidated {Mname}!")
@@ -372,7 +498,16 @@ while True:
                             player_stats(player)
 
                         elif move == "3":
-                            pass
+                            ShopUI()
+                            decision = input("Choose! [1/2]: ")
+                            if decision == "1":
+                                buy_item(player, shop)
+
+                            elif decision == "2":
+                                print("Come Again! ^^")
+                                break
+                            else:
+                                print("Invalid!")
 
                     elif class_choice == "3":
                         cl = "Healer"
@@ -440,7 +575,11 @@ while True:
                                         print(f"{Mname}:{Mstats}")
 
                                     elif act_choice == "2":
-                                        print("")
+                                        heal = player["Hp"] * random.choice([1, 2, 3])
+                                        print("Flawless Heal!")
+                                        player["Hp"] = heal
+                                        Php = heal
+                                        print(f"Your HP is now {player['Hp']}")
 
                                     elif act_choice == "3":
                                         print(f"You intimidated {Mname}!")
@@ -489,7 +628,16 @@ while True:
                             player_stats(player)
 
                         elif move == "3":
-                            pass
+                            ShopUI()
+                            decision = input("Choose! [1/2]: ")
+                            if decision == "1":
+                                buy_item(player, shop)
+
+                            elif decision == "2":
+                                print("Come Again! ^^")
+                                break
+                            else:
+                                print("Invalid!")
 
         else:
             print("You've quit the game")
