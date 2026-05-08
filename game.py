@@ -159,12 +159,40 @@ def rewards(player, Mstats):
     print(f"You gained {gold} Gold!")
     print(f"You gained {exp} EXP!\n")
 
+def boss_rewards(player, Bstats):
+
+    gold = Bstats["Gold"]
+    exp = Bstats["Exp"]
+
+    player["Gold"] += gold
+    player["Exp"] += exp
+
+    print(f"You gained {gold} Gold!")
+    print(f"You gained {exp} EXP!\n")
+
 def player_atk(Mhp, Patk):
     Pdamage = Patk - Mdef
     Mhp -= Pdamage
     print(f"You attacked {Mname} and inflicted {Pdamage} damage")
     print(f"{Mname} HP is now {Mhp}\n")
     return Mhp
+
+def player_atk_boss(Bhp, Patk):
+    Pdamage = Patk - Bdef
+    Bhp -= Pdamage
+    print(f"You attacked {Bname} and inflicted {Pdamage} damage")
+    print(f"{Bname} HP is now {Bhp}\n")
+    return Bhp
+
+def boss_atk(Php, Batk):
+    damage = random.randint(5, Batk)
+    final_damage = damage - Pdef
+    itspi = player["Hp"]
+    Php -= final_damage
+    Php = max(0, min(Php, itspi))
+    print(f"The monster dealt {final_damage} damage to you!")
+    print(f"Your HP has dropped to {Php}\n")
+    return Php
 
 def enemy_atk(Php, Matk):
     damage = random.randint(5, Matk)
@@ -221,7 +249,7 @@ Bosses = {
 Php = player["Hp"]
 Patk = player["Atk"]
 Pdef = player["Def"]
-stage = 1
+stage = 3
 max_kills = 4
 while True:
     UI()
@@ -255,109 +283,202 @@ while True:
                         Move()
                         move = input("What should be your next Move? [1/2/3]: ")
                         if move == "1":
-                            kills = 0
-                            print(f"\nYou've now entered Dungeon {stage}")
+                            if stage >= 3:
+                                print(f"\nYou've now entered Dungeon {stage}")
 
-                            Mname, Mstats = spawn_monster(monsters)
-                            Mhp = Mstats["Hp"]
-                            Matk = Mstats["Atk"]
-                            Mdef = Mstats["Def"]
+                                Bname, Bstats = spawn_boss(Bosses)
+                                Bhp = Bstats["Hp"]
+                                Batk = Bstats["Atk"]
+                                Bdef = Bstats["Def"]
 
-                            while True:
-                                print(f"\nYou have encountered {Mname}")
-                                Battle()
-                                battle = input("What should be your next Move? [1/2/3/4]: ")
+                                while True:
+                                    print(f"\nYou have encountered {Bname}")
+                                    Battle()
+                                    battle = input("What should be your next Move? [1/2/3/4]: ")
 
-                                if battle == "1":
-                                    Mhp = player_atk(Mhp, Patk)
-                                    Php = enemy_atk(Php, Matk)
+                                    if battle == "1":
+                                        Bhp = player_atk_boss(Bhp, Patk)
+                                        Php = boss_atk(Php, Batk)
 
-                                    player["Hp"] = Php
+                                        player["Hp"] = Php
 
-                                    if Mhp <= 0:
-                                        print(f"\n{Mname} defeated!")
+                                        if Bhp <= 0:
+                                            print(f"\n{Bname} defeated!")
 
-                                        rewards(player, Mstats)
+                                            boss_rewards(player, Bstats)
 
-                                        kills += 1
-                                        print(f"Monsters defeated: {kills}/{max_kills}")
+                                            print("Boss Fight Cleared!")
+                                            break
 
-                                        if kills >= max_kills:
-                                            print("Dungeon Cleared!")
-                                            stage += 1
-                                            max_kills += 2
+                                        if Php <= 0:
+                                            print("You died!")
+                                            print("Skill Issue! :p")
+                                            quit()
+
+                                    elif battle == "2":
+                                        Act()
+                                        act_choice = input("What to do? [1/2/3/4]: ")
+
+                                        if act_choice == "1":
+                                            print(f"{Bname}:{Bstats}")
+
+                                        elif act_choice == "2":
+                                            if player["Exp"] >= 100:
+                                                dmg = player["Atk"] * 2
+                                                print("Power Strike! Massive damage!")
+                                                Bhp -= dmg
+                                                player["Exp"] -= 100
+                                                
+                                                print(f"You dealt {dmg} damage!")
+                                            
+                                            else:
+                                                print("Not Enough EXP!")
+
+                                        elif act_choice == "3":
+                                            print(f"You intimidated {Bname}!")
+                                            print(f"{Bname}'s atk Dropped!")
+                                            Batk = max(1, int(Batk * 0.9))
+
+                                        elif act_choice == "4":
+                                            continue
+                                    elif battle == "3":
+                                        Item()
+                                        item_choice = input("Choose item: ")
+
+                                        if item_choice == "1":
+                                            if player["Inventory"]["Potion"] > 0:
+                                                player["Hp"] += 10
+                                                
+                                                player["Hp"] = min(player["Hp"], 25)
+                                                Php = player["Hp"]
+                                                player["Inventory"]["Potion"] -= 1
+                            
+                                                print("You used a Potion!")
+                                                print(f"Your HP is now {player['Hp']}")
+                                                print(f"Potions left: {player['Inventory']['Potion']}")
+
+                                            else:
+                                                print("No Potions left!")
+
+                                        elif item_choice == "2":
+                                            continue
+
+                                    elif battle == "4":
+                                        Spare()
+                                        spare_choice = input("What to do? [1/2]: ")
+                                        
+                                        if spare_choice == "1":
+                                            
+                                            print("You Ran away!")
+                                            print("Your progress won't be saved :p")
                                             break
                                         
-                                        Mname, Mstats = spawn_monster(monsters)
-                                        Mhp = Mstats["Hp"]
-                                        Matk = Mstats["Atk"]
-                                        continue
+                                        elif spare_choice == "2":
+                                            continue
+                            else:
+                                kills = 0
+                                print(f"\nYou've now entered Dungeon {stage}")
 
-                                    if Php <= 0:
-                                        print("You died!")
-                                        print("Skill Issue! :p")
-                                        quit()
+                                Mname, Mstats = spawn_monster(monsters)
+                                Mhp = Mstats["Hp"]
+                                Matk = Mstats["Atk"]
+                                Mdef = Mstats["Def"]
 
-                                elif battle == "2":
-                                    Act()
-                                    act_choice = input("What to do? [1/2/3/4]: ")
+                                while True:
+                                    print(f"\nYou have encountered {Mname}")
+                                    Battle()
+                                    battle = input("What should be your next Move? [1/2/3/4]: ")
 
-                                    if act_choice == "1":
-                                        print(f"{Mname}:{Mstats}")
+                                    if battle == "1":
+                                        Mhp = player_atk(Mhp, Patk)
+                                        Php = enemy_atk(Php, Matk)
 
-                                    elif act_choice == "2":
-                                        if player["Exp"] >= 100:
-                                            dmg = player["Atk"] * 2
-                                            print("Power Strike! Massive damage!")
-                                            Mhp -= dmg
-                                            player["Exp"] -= 100
+                                        player["Hp"] = Php
+
+                                        if Mhp <= 0:
+                                            print(f"\n{Mname} defeated!")
+
+                                            rewards(player, Mstats)
+
+                                            kills += 1
+                                            print(f"Monsters defeated: {kills}/{max_kills}")
+
+                                            if kills >= max_kills:
+                                                print("Dungeon Cleared!")
+                                                stage += 1
+                                                max_kills += 2
+                                                break
                                             
-                                            print(f"You dealt {dmg} damage!")
-                                        
-                                        else:
-                                            print("Not Enough EXP!")
+                                            Mname, Mstats = spawn_monster(monsters)
+                                            Mhp = Mstats["Hp"]
+                                            Matk = Mstats["Atk"]
+                                            continue
 
-                                    elif act_choice == "3":
-                                        print(f"You intimidated {Mname}!")
-                                        print(f"{Mname}'s atk Dropped!")
-                                        Matk = max(1, int(Matk * 0.9))
+                                        if Php <= 0:
+                                            print("You died!")
+                                            print("Skill Issue! :p")
+                                            quit()
 
-                                    elif act_choice == "4":
-                                        continue
-                                elif battle == "3":
-                                    Item()
-                                    item_choice = input("Choose item: ")
+                                    elif battle == "2":
+                                        Act()
+                                        act_choice = input("What to do? [1/2/3/4]: ")
 
-                                    if item_choice == "1":
-                                        if player["Inventory"]["Potion"] > 0:
-                                            player["Hp"] += 10
+                                        if act_choice == "1":
+                                            print(f"{Mname}:{Mstats}")
+
+                                        elif act_choice == "2":
+                                            if player["Exp"] >= 100:
+                                                dmg = player["Atk"] * 2
+                                                print("Power Strike! Massive damage!")
+                                                Mhp -= dmg
+                                                player["Exp"] -= 100
+                                                
+                                                print(f"You dealt {dmg} damage!")
                                             
-                                            player["Hp"] = min(player["Hp"], 25)
-                                            Php = player["Hp"]
-                                            player["Inventory"]["Potion"] -= 1
-                        
-                                            print("You used a Potion!")
-                                            print(f"Your HP is now {player['Hp']}")
-                                            print(f"Potions left: {player['Inventory']['Potion']}")
+                                            else:
+                                                print("Not Enough EXP!")
 
-                                        else:
-                                            print("No Potions left!")
+                                        elif act_choice == "3":
+                                            print(f"You intimidated {Mname}!")
+                                            print(f"{Mname}'s atk Dropped!")
+                                            Matk = max(1, int(Matk * 0.9))
 
-                                    elif item_choice == "2":
-                                        continue
+                                        elif act_choice == "4":
+                                            continue
+                                    elif battle == "3":
+                                        Item()
+                                        item_choice = input("Choose item: ")
 
-                                elif battle == "4":
-                                    Spare()
-                                    spare_choice = input("What to do? [1/2]: ")
-                                    
-                                    if spare_choice == "1":
+                                        if item_choice == "1":
+                                            if player["Inventory"]["Potion"] > 0:
+                                                player["Hp"] += 10
+                                                
+                                                player["Hp"] = min(player["Hp"], 25)
+                                                Php = player["Hp"]
+                                                player["Inventory"]["Potion"] -= 1
+                            
+                                                print("You used a Potion!")
+                                                print(f"Your HP is now {player['Hp']}")
+                                                print(f"Potions left: {player['Inventory']['Potion']}")
+
+                                            else:
+                                                print("No Potions left!")
+
+                                        elif item_choice == "2":
+                                            continue
+
+                                    elif battle == "4":
+                                        Spare()
+                                        spare_choice = input("What to do? [1/2]: ")
                                         
-                                        print("You Ran away!")
-                                        print("Your progress won't be saved :p")
-                                        break
-                                    
-                                    elif spare_choice == "2":
-                                        continue
+                                        if spare_choice == "1":
+                                            
+                                            print("You Ran away!")
+                                            print("Your progress won't be saved :p")
+                                            break
+                                        
+                                        elif spare_choice == "2":
+                                            continue
 
 
                         elif move == "2":
@@ -389,108 +510,201 @@ while True:
                         Move()
                         move = input("What should be your next Move? [1/2/3]: ")
                         if move == "1":
-                            kills = 0
-                            print(f"\nYou've now entered Dungeon {stage}")
+                            if stage >= 3:
+                                print(f"\nYou've now entered Dungeon {stage}")
 
-                            Mname, Mstats = spawn_monster(monsters)
-                            Mhp = Mstats["Hp"]
-                            Matk = Mstats["Atk"]
-                            Mdef = Mstats["Def"]
+                                Bname, Bstats = spawn_boss(Bosses)
+                                Bhp = Bstats["Hp"]
+                                Batk = Bstats["Atk"]
+                                Bdef = Bstats["Def"]
 
-                            while True:
-                                print(f"\nYou have encountered {Mname}")
-                                Battle()
-                                battle = input("What should be your next Move? [1/2/3/4]: ")
+                                while True:
+                                    print(f"\nYou have encountered {Bname}")
+                                    Battle()
+                                    battle = input("What should be your next Move? [1/2/3/4]: ")
 
-                                if battle == "1":
-                                    Mhp = player_atk(Mhp, Patk)
-                                    Php = enemy_atk(Php, Matk)
+                                    if battle == "1":
+                                        Bhp = player_atk_boss(Bhp, Patk)
+                                        Php = boss_atk(Php, Batk)
 
-                                    player["Hp"] = Php
+                                        player["Hp"] = Php
 
-                                    if Mhp <= 0:
-                                        print(f"\n{Mname} defeated!")
+                                        if Bhp <= 0:
+                                            print(f"\n{Bname} defeated!")
 
-                                        rewards(player, Mstats)
+                                            boss_rewards(player, Bstats)
 
-                                        kills += 1
-                                        print(f"Monsters defeated: {kills}/{max_kills}")
+                                            print("Boss Fight Cleared!")
+                                            break
 
-                                        if kills >= max_kills:
-                                            print("Dungeon Cleared!")
-                                            stage += 1
-                                            max_kills += 2
+                                        if Php <= 0:
+                                            print("You died!")
+                                            print("Skill Issue! :p")
+                                            quit()
+
+                                    elif battle == "2":
+                                        Act()
+                                        act_choice = input("What to do? [1/2/3/4]: ")
+
+                                        if act_choice == "1":
+                                            print(f"{Bname}:{Bstats}")
+
+                                        elif act_choice == "2":
+                                            if player["Exp"] >= 100:
+                                                dmg = player["Atk"] * 2
+                                                print("Power Strike! Massive damage!")
+                                                Bhp -= dmg
+                                                player["Exp"] -= 100
+                                                
+                                                print(f"You dealt {dmg} damage!")
+                                            
+                                            else:
+                                                print("Not Enough EXP!")
+
+                                        elif act_choice == "3":
+                                            print(f"You intimidated {Bname}!")
+                                            print(f"{Bname}'s atk Dropped!")
+                                            Batk = max(1, int(Batk * 0.9))
+
+                                        elif act_choice == "4":
+                                            continue
+                                    elif battle == "3":
+                                        Item()
+                                        item_choice = input("Choose item: ")
+
+                                        if item_choice == "1":
+                                            if player["Inventory"]["Potion"] > 0:
+                                                player["Hp"] += 10
+                                                
+                                                player["Hp"] = min(player["Hp"], 25)
+                                                Php = player["Hp"]
+                                                player["Inventory"]["Potion"] -= 1
+                            
+                                                print("You used a Potion!")
+                                                print(f"Your HP is now {player['Hp']}")
+                                                print(f"Potions left: {player['Inventory']['Potion']}")
+
+                                            else:
+                                                print("No Potions left!")
+
+                                        elif item_choice == "2":
+                                            continue
+
+                                    elif battle == "4":
+                                        Spare()
+                                        spare_choice = input("What to do? [1/2]: ")
+                                        
+                                        if spare_choice == "1":
+                                            
+                                            print("You Ran away!")
+                                            print("Your progress won't be saved :p")
                                             break
                                         
-                                        Mname, Mstats = spawn_monster(monsters)
-                                        Mhp = Mstats["Hp"]
-                                        Matk = Mstats["Atk"]
-                                        continue
+                                        elif spare_choice == "2":
+                                            continue
+                            else:
+                                kills = 0
+                                print(f"\nYou've now entered Dungeon {stage}")
 
-                                    if Php <= 0:
-                                        print("You died!")
-                                        print("Skill Issue! :p")
-                                        quit()
+                                Mname, Mstats = spawn_monster(monsters)
+                                Mhp = Mstats["Hp"]
+                                Matk = Mstats["Atk"]
+                                Mdef = Mstats["Def"]
 
-                                elif battle == "2":
-                                    Act()
-                                    act_choice = input("What to do? [1/2/3/4]: ")
+                                while True:
+                                    print(f"\nYou have encountered {Mname}")
+                                    Battle()
+                                    battle = input("What should be your next Move? [1/2/3/4]: ")
 
-                                    if act_choice == "1":
-                                        print(f"{Mname}:{Mstats}")
+                                    if battle == "1":
+                                        Mhp = player_atk(Mhp, Patk)
+                                        Php = enemy_atk(Php, Matk)
 
-                                    elif act_choice == "2":
-                                        if player["Exp"] >= 100:
-                                            dmg = player["Atk"] + 100
-                                            print("Execution!")
-                                            Mhp -= dmg
-                                            print(f"You dealt {dmg} damage!")
-                                            player["Exp"] -= 100
+                                        player["Hp"] = Php
 
-                                        else:
-                                            print("Not Enough EXP!")
+                                        if Mhp <= 0:
+                                            print(f"\n{Mname} defeated!")
 
-                                    elif act_choice == "3":
-                                        print(f"You intimidated {Mname}!")
-                                        print(f"{Mname}'s atk Dropped!")
-                                        Matk = max(1, int(Matk * 0.9))
+                                            rewards(player, Mstats)
 
-                                    elif act_choice == "4":
-                                        continue
-                                elif battle == "3":
-                                    Item()
-                                    item_choice = input("Choose item: ")
+                                            kills += 1
+                                            print(f"Monsters defeated: {kills}/{max_kills}")
 
-                                    if item_choice == "1":
-                                        if player["Inventory"]["Potion"] > 0:
-                                            player["Hp"] += 10
+                                            if kills >= max_kills:
+                                                print("Dungeon Cleared!")
+                                                stage += 1
+                                                max_kills += 2
+                                                break
                                             
-                                            player["Hp"] = min(player["Hp"], 20)
-                                            Php = player["Hp"]
-                                            player["Inventory"]["Potion"] -= 1
-                        
-                                            print("You used a Potion!")
-                                            print(f"Your HP is now {player['Hp']}")
-                                            print(f"Potions left: {player['Inventory']['Potion']}")
+                                            Mname, Mstats = spawn_monster(monsters)
+                                            Mhp = Mstats["Hp"]
+                                            Matk = Mstats["Atk"]
+                                            continue
 
-                                        else:
-                                            print("No Potions left!")
+                                        if Php <= 0:
+                                            print("You died!")
+                                            print("Skill Issue! :p")
+                                            quit()
 
-                                    elif item_choice == "2":
-                                        continue
+                                    elif battle == "2":
+                                        Act()
+                                        act_choice = input("What to do? [1/2/3/4]: ")
 
-                                elif battle == "4":
-                                    Spare()
-                                    spare_choice = input("What to do? [1/2]: ")
-                                    
-                                    if spare_choice == "1":
+                                        if act_choice == "1":
+                                            print(f"{Mname}:{Mstats}")
+
+                                        elif act_choice == "2":
+                                            if player["Exp"] >= 100:
+                                                dmg = player["Atk"] + 100
+                                                print("Execution!")
+                                                Mhp -= dmg
+                                                print(f"You dealt {dmg} damage!")
+                                                player["Exp"] -= 100
+
+                                            else:
+                                                print("Not Enough EXP!")
+
+                                        elif act_choice == "3":
+                                            print(f"You intimidated {Mname}!")
+                                            print(f"{Mname}'s atk Dropped!")
+                                            Matk = max(1, int(Matk * 0.9))
+
+                                        elif act_choice == "4":
+                                            continue
+                                    elif battle == "3":
+                                        Item()
+                                        item_choice = input("Choose item: ")
+
+                                        if item_choice == "1":
+                                            if player["Inventory"]["Potion"] > 0:
+                                                player["Hp"] += 10
+                                                
+                                                player["Hp"] = min(player["Hp"], 20)
+                                                Php = player["Hp"]
+                                                player["Inventory"]["Potion"] -= 1
+                            
+                                                print("You used a Potion!")
+                                                print(f"Your HP is now {player['Hp']}")
+                                                print(f"Potions left: {player['Inventory']['Potion']}")
+
+                                            else:
+                                                print("No Potions left!")
+
+                                        elif item_choice == "2":
+                                            continue
+
+                                    elif battle == "4":
+                                        Spare()
+                                        spare_choice = input("What to do? [1/2]: ")
                                         
-                                        print("You Ran away!")
-                                        print("Your progress won't be saved :p")
-                                        break
-                                    
-                                    elif spare_choice == "2":
-                                        continue
+                                        if spare_choice == "1":
+                                            
+                                            print("You Ran away!")
+                                            print("Your progress won't be saved :p")
+                                            break
+                                        
+                                        elif spare_choice == "2":
+                                            continue
 
 
                         elif move == "2":
@@ -524,108 +738,202 @@ while True:
                         Move()
                         move = input("What should be your next Move? [1/2/3]: ")
                         if move == "1":
-                            kills = 0
-                            print(f"\nYou've now entered Dungeon {stage}")
+                            if stage >= 3:
+                                print(f"\nYou've now entered Dungeon {stage}")
 
-                            Mname, Mstats = spawn_monster(monsters)
-                            Mhp = Mstats["Hp"]
-                            Matk = Mstats["Atk"]
-                            Mdef = Mstats["Def"]
+                                Bname, Bstats = spawn_boss(Bosses)
+                                Bhp = Bstats["Hp"]
+                                Batk = Bstats["Atk"]
+                                Bdef = Bstats["Def"]
 
-                            while True:
-                                print(f"\nYou have encountered {Mname}")
-                                Battle()
-                                battle = input("What should be your next Move? [1/2/3/4]: ")
+                                while True:
+                                    print(f"\nYou have encountered {Bname}")
+                                    Battle()
+                                    battle = input("What should be your next Move? [1/2/3/4]: ")
 
-                                if battle == "1":
-                                    Mhp = player_atk(Mhp, Patk)
-                                    Php = enemy_atk(Php, Matk)
+                                    if battle == "1":
+                                        Bhp = player_atk_boss(Bhp, Patk)
+                                        Php = boss_atk(Php, Batk)
 
-                                    player["Hp"] = Php
+                                        player["Hp"] = Php
 
-                                    if Mhp <= 0:
-                                        print(f"\n{Mname} defeated!")
+                                        if Bhp <= 0:
+                                            print(f"\n{Bname} defeated!")
 
-                                        rewards(player, Mstats)
+                                            boss_rewards(player, Bstats)
 
-                                        kills += 1
-                                        print(f"Monsters defeated: {kills}/{max_kills}")
+                                            print("Boss Fight Cleared!")
+                                            break
 
-                                        if kills >= max_kills:
-                                            print("Dungeon Cleared!")
-                                            stage += 1
-                                            max_kills += 2
+                                        if Php <= 0:
+                                            print("You died!")
+                                            print("Skill Issue! :p")
+                                            quit()
+
+                                    elif battle == "2":
+                                        Act()
+                                        act_choice = input("What to do? [1/2/3/4]: ")
+
+                                        if act_choice == "1":
+                                            print(f"{Bname}:{Bstats}")
+
+                                        elif act_choice == "2":
+                                            if player["Exp"] >= 100:
+                                                dmg = player["Atk"] * 2
+                                                print("Power Strike! Massive damage!")
+                                                Bhp -= dmg
+                                                player["Exp"] -= 100
+                                                
+                                                print(f"You dealt {dmg} damage!")
+                                            
+                                            else:
+                                                print("Not Enough EXP!")
+
+                                        elif act_choice == "3":
+                                            print(f"You intimidated {Bname}!")
+                                            print(f"{Bname}'s atk Dropped!")
+                                            Batk = max(1, int(Batk * 0.9))
+
+                                        elif act_choice == "4":
+                                            continue
+                                    elif battle == "3":
+                                        Item()
+                                        item_choice = input("Choose item: ")
+
+                                        if item_choice == "1":
+                                            if player["Inventory"]["Potion"] > 0:
+                                                player["Hp"] += 10
+                                                
+                                                player["Hp"] = min(player["Hp"], 25)
+                                                Php = player["Hp"]
+                                                player["Inventory"]["Potion"] -= 1
+                            
+                                                print("You used a Potion!")
+                                                print(f"Your HP is now {player['Hp']}")
+                                                print(f"Potions left: {player['Inventory']['Potion']}")
+
+                                            else:
+                                                print("No Potions left!")
+
+                                        elif item_choice == "2":
+                                            continue
+
+                                    elif battle == "4":
+                                        Spare()
+                                        spare_choice = input("What to do? [1/2]: ")
+                                        
+                                        if spare_choice == "1":
+                                            
+                                            print("You Ran away!")
+                                            print("Your progress won't be saved :p")
                                             break
                                         
-                                        Mname, Mstats = spawn_monster(monsters)
-                                        Mhp = Mstats["Hp"]
-                                        Matk = Mstats["Atk"]
-                                        continue
+                                        elif spare_choice == "2":
+                                            continue
+                            else:
+                                kills = 0
+                                print(f"\nYou've now entered Dungeon {stage}")
 
-                                    if Php <= 0:
-                                        print("You died!")
-                                        print("Skill Issue! :p")
-                                        quit()
+                                Mname, Mstats = spawn_monster(monsters)
+                                Mhp = Mstats["Hp"]
+                                Matk = Mstats["Atk"]
+                                Mdef = Mstats["Def"]
 
-                                elif battle == "2":
-                                    Act()
-                                    act_choice = input("What to do? [1/2/3/4]: ")
+                                while True:
+                                    print(f"\nYou have encountered {Mname}")
+                                    Battle()
+                                    battle = input("What should be your next Move? [1/2/3/4]: ")
 
-                                    if act_choice == "1":
-                                        print(f"{Mname}:{Mstats}")
-
-                                    elif act_choice == "2":
-                                        if player["Exp"] >= 100:
-                                            heal = player["Hp"] * random.choice([1, 2, 3])
-                                            print("Flawless Heal!")
-                                            player["Hp"] = heal
-                                            Php = heal
-                                            player["Exp"] -= 100
-                                            print(f"Your HP is now {player['Hp']}")
-                                        else:
-                                            print("Not Enough EXP!")
-
-                                    elif act_choice == "3":
-                                        print(f"You intimidated {Mname}!")
-                                        print(f"{Mname}'s atk Dropped!")
-                                        Matk = max(1, int(Matk * 0.9))
-
-                                    elif act_choice == "4":
-                                        continue
-                                elif battle == "3":
-                                    Item()
-                                    item_choice = input("Choose item: ")
-
-                                    if item_choice == "1":
-                                        if player["Inventory"]["Potion"] > 0:
-                                            player["Hp"] += 25
-                                            
-                                            player["Hp"] = min(player["Hp"], 30)
-                                            Php = player["Hp"]
-                                            player["Inventory"]["Potion"] -= 1
-                        
-                                            print("You used a Potion!")
-                                            print(f"Your HP is now {player['Hp']}")
-                                            print(f"Potions left: {player['Inventory']['Potion']}")
-
-                                        else:
-                                            print("No Potions left!")
-
-                                    elif item_choice == "2":
-                                        continue
-
-                                elif battle == "4":
-                                    Spare()
-                                    spare_choice = input("What to do? [1/2]: ")
-                                    
-                                    if spare_choice == "1":
+                                    if battle == "1":
                                         
-                                        print("You Ran away!")
-                                        print("Your progress won't be saved :p")
-                                        break
-                                    
-                                    elif spare_choice == "2":
-                                        continue
+                                        Mhp = player_atk(Mhp, Patk)
+                                        Php = enemy_atk(Php, Matk)
+
+                                        player["Hp"] = Php
+
+                                        if Mhp <= 0:
+                                            print(f"\n{Mname} defeated!")
+
+                                            rewards(player, Mstats)
+
+                                            kills += 1
+                                            print(f"Monsters defeated: {kills}/{max_kills}")
+
+                                            if kills >= max_kills:
+                                                print("Dungeon Cleared!")
+                                                stage += 1
+                                                max_kills += 2
+                                                break
+                                            
+                                            Mname, Mstats = spawn_monster(monsters)
+                                            Mhp = Mstats["Hp"]
+                                            Matk = Mstats["Atk"]
+                                            continue
+
+                                        if Php <= 0:
+                                            print("You died!")
+                                            print("Skill Issue! :p")
+                                            quit()
+
+                                    elif battle == "2":
+                                        Act()
+                                        act_choice = input("What to do? [1/2/3/4]: ")
+
+                                        if act_choice == "1":
+                                            print(f"{Mname}:{Mstats}")
+
+                                        elif act_choice == "2":
+                                            if player["Exp"] >= 100:
+                                                heal = player["Hp"] * random.choice([1, 2, 3])
+                                                print("Flawless Heal!")
+                                                player["Hp"] = heal
+                                                Php = heal
+                                                player["Exp"] -= 100
+                                                print(f"Your HP is now {player['Hp']}")
+                                            else:
+                                                print("Not Enough EXP!")
+
+                                        elif act_choice == "3":
+                                            print(f"You intimidated {Mname}!")
+                                            print(f"{Mname}'s atk Dropped!")
+                                            Matk = max(1, int(Matk * 0.9))
+
+                                        elif act_choice == "4":
+                                            continue
+                                    elif battle == "3":
+                                        Item()
+                                        item_choice = input("Choose item: ")
+
+                                        if item_choice == "1":
+                                            if player["Inventory"]["Potion"] > 0:
+                                                player["Hp"] += 25
+                                                
+                                                player["Hp"] = min(player["Hp"], 30)
+                                                Php = player["Hp"]
+                                                player["Inventory"]["Potion"] -= 1
+                            
+                                                print("You used a Potion!")
+                                                print(f"Your HP is now {player['Hp']}")
+                                                print(f"Potions left: {player['Inventory']['Potion']}")
+
+                                            else:
+                                                print("No Potions left!")
+
+                                        elif item_choice == "2":
+                                            continue
+
+                                    elif battle == "4":
+                                        Spare()
+                                        spare_choice = input("What to do? [1/2]: ")
+                                        
+                                        if spare_choice == "1":
+                                            
+                                            print("You Ran away!")
+                                            print("Your progress won't be saved :p")
+                                            break
+                                        
+                                        elif spare_choice == "2":
+                                            continue
 
 
                         elif move == "2":
