@@ -160,25 +160,6 @@ def player_atk(Mhp, Patk):
     print(f"{Mname} HP is now {Mhp}\n")
     return Mhp
 
-def use_skill(player):
-    global Mhp
-    if player["Class"] == "Fighter":
-        dmg = player["atk"] * 2
-        print("Power Strike! Massive damage!")
-    elif player["Class"] == "Assassin":
-        dmg = player["atk"] + 100
-        print("Execution!")
-    elif player["Class"] == "Healer":
-        heal = player["Hp"] * random.choice([1, 2, 3])
-        print("Flawless Heal!")
-    else:
-        dmg = player["atk"]
-
-    player["Hp"] = heal
-    Mhp -= dmg
-    Bosses["Hp"] -= dmg
-    print(f"You dealt {dmg} damage!")
-
 def enemy_atk(Php, Matk):
     damage = random.randint(5, Matk)
     final_damage = damage - Pdef
@@ -196,7 +177,7 @@ player = {
     "Hp": 25,
     "Atk": 18,
     "Def": 5,
-    "Gold": 10000,
+    "Gold": 0,
     "Exp": 0,
     "Inventory" : {
     "Potion": 3
@@ -218,17 +199,17 @@ shop = {
 }
 
 monsters = {
-    "TiggorF": {"Hp": 30, "Atk": 13, "Def": 5,"Gold": 20,"Exp": 10},
-    "NusmihW": {"Hp": 10, "Atk": 11, "Def": 2,"Gold": 2,"Exp": 2},
-    "XooL": {"Hp": 50, "Atk": 14, "Def": 8,"Gold": 5,"Exp": 7},
-    "PsogiM": {"Hp": 40, "Atk": 11, "Def": 6,"Gold": 2,"Exp": 5}
+    "TiggorF": {"Hp": 30, "Atk": 15, "Def": 5,"Gold": 20,"Exp": 10},
+    "NusmihW": {"Hp": 10, "Atk": 17, "Def": 2,"Gold": 2,"Exp": 2},
+    "XooL": {"Hp": 50, "Atk": 16, "Def": 8,"Gold": 5,"Exp": 7},
+    "PsogiM": {"Hp": 40, "Atk": 16, "Def": 6,"Gold": 2,"Exp": 5}
 }
 
 Bosses = {
-    "Toriel": {"Hp": 80, "Atk": 15, "Def": 6,"Gold": 1000,"Exp": 1000},
-    "Asgore": {"Hp": 150, "Atk": 18, "Def": 12,"Gold": 5000,"Exp": 10000},
-    "Undyne": {"Hp": 120, "Atk": 17, "Def": 8,"Gold": 2500,"Exp": 7500},
-    "Sans": {"Hp": 100, "Atk": 10, "Def": 7,"Gold": 2000,"Exp": 5500}
+    "Toriel": {"Hp": 80, "Atk": 22, "Def": 6,"Gold": 1000,"Exp": 1000},
+    "Asgore": {"Hp": 150, "Atk": 23, "Def": 12,"Gold": 5000,"Exp": 10000},
+    "Undyne": {"Hp": 120, "Atk": 22, "Def": 8,"Gold": 2500,"Exp": 7500},
+    "Sans": {"Hp": 100, "Atk": 21, "Def": 7,"Gold": 2000,"Exp": 5500}
 }
 
 Php = player["Hp"]
@@ -318,11 +299,16 @@ while True:
                                         print(f"{Mname}:{Mstats}")
 
                                     elif act_choice == "2":
-                                        dmg = player["atk"] * 2
-                                        print("Power Strike! Massive damage!")
-                                        Mhp -= dmg
+                                        if player["Exp"] >= 100:
+                                            dmg = player["Atk"] * 2
+                                            print("Power Strike! Massive damage!")
+                                            Mhp -= dmg
+                                            player["Exp"] -= 100
+                                            
+                                            print(f"You dealt {dmg} damage!")
                                         
-                                        print(f"You dealt {dmg} damage!")
+                                        else:
+                                            print("Not Enough EXP!")
 
                                     elif act_choice == "3":
                                         print(f"You intimidated {Mname}!")
@@ -446,10 +432,15 @@ while True:
                                         print(f"{Mname}:{Mstats}")
 
                                     elif act_choice == "2":
-                                        dmg = player["atk"] + 100
-                                        print("Execution!")
-                                        Mhp -= dmg
-                                        print(f"You dealt {dmg} damage!")
+                                        if player["Exp"] >= 100:
+                                            dmg = player["Atk"] + 100
+                                            print("Execution!")
+                                            Mhp -= dmg
+                                            print(f"You dealt {dmg} damage!")
+                                            player["Exp"] -= 100
+
+                                        else:
+                                            print("Not Enough EXP!")
 
                                     elif act_choice == "3":
                                         print(f"You intimidated {Mname}!")
@@ -575,11 +566,15 @@ while True:
                                         print(f"{Mname}:{Mstats}")
 
                                     elif act_choice == "2":
-                                        heal = player["Hp"] * random.choice([1, 2, 3])
-                                        print("Flawless Heal!")
-                                        player["Hp"] = heal
-                                        Php = heal
-                                        print(f"Your HP is now {player['Hp']}")
+                                        if player["Exp"] >= 100:
+                                            heal = player["Hp"] * random.choice([1, 2, 3])
+                                            print("Flawless Heal!")
+                                            player["Hp"] = heal
+                                            Php = heal
+                                            player["Exp"] -= 100
+                                            print(f"Your HP is now {player['Hp']}")
+                                        else:
+                                            print("Not Enough EXP!")
 
                                     elif act_choice == "3":
                                         print(f"You intimidated {Mname}!")
