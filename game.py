@@ -289,6 +289,7 @@ while True:
 
                                     if Php <= 0:
                                         print("You died!")
+                                        print("Skill Issue! :p")
                                         quit()
 
                                 elif battle == "2":
@@ -422,6 +423,7 @@ while True:
 
                                     if Php <= 0:
                                         print("You died!")
+                                        print("Skill Issue! :p")
                                         quit()
 
                                 elif battle == "2":
@@ -556,6 +558,7 @@ while True:
 
                                     if Php <= 0:
                                         print("You died!")
+                                        print("Skill Issue! :p")
                                         quit()
 
                                 elif battle == "2":
