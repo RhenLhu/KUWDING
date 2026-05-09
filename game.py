@@ -11,7 +11,7 @@ def UI2():
     print("Because in this world, it's")
     print("\033[31mKill or Be Killed!")
     print("When Your Hp drops to 0, You Lose!!\033[0m")
-    print("anyways...")
+    print("Anyways...")
     print("[1] Start")
     print("[2] Back Out (Exit)")
 
