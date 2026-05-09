@@ -297,7 +297,7 @@ player = {
     "Hp": 25,
     "Atk": 18,
     "Def": 5,
-    "Gold": 2000,
+    "Gold": 0,
     "Skill Points": 0,
     "Inventory" : {
     "Potion": 3
@@ -307,17 +307,17 @@ player = {
 cl = {
         "cl1": {
         "Class" : "Fighter",
-        "Hp" : 25,
+        "Hp" : 40,
         "Def" : 10
     },
         "cl2": {
         "Class" : "Assassin",
-        "Hp" : 20,
+        "Hp" : 30,
         "Atk" : 25
     },
         "cl3": {
         "Class" : "Healer",
-        "hp" : 30,
+        "hp" : 70,
         "Atk" : 13,
         "Def" : 7
         }
@@ -337,20 +337,20 @@ shop = {
 }
 
 monsters = {
-    "TiggorF": {"Hp": 30, "Atk": 15, "Def": 5,"Gold": 20,"Skill Points": 10},
-    "NusmihW": {"Hp": 10, "Atk": 17, "Def": 2,"Gold": 2,"Skill Points": 2},
-    "XooL": {"Hp": 50, "Atk": 16, "Def": 8,"Gold": 5,"Skill Points": 7},
-    "PsogiM": {"Hp": 40, "Atk": 16, "Def": 6,"Gold": 2,"Skill Points": 5}
+    "TiggorF": {"Hp": 35, "Atk": 15, "Def": 5,"Gold": 20,"Skill Points": 16},
+    "NusmihW": {"Hp": 25, "Atk": 17, "Def": 2,"Gold": 50,"Skill Points": 7},
+    "XooL": {"Hp": 55, "Atk": 16, "Def": 8,"Gold": 35,"Skill Points": 9},
+    "PsogiM": {"Hp": 45, "Atk": 16, "Def": 6,"Gold": 24,"Skill Points": 7}
 }
 
 Bosses = {
-    "Toriel": {"Hp": 80, "Atk": 22, "Def": 6,"Gold": 1000,"Skill Points": 1000},
-    "Asgore": {"Hp": 150, "Atk": 23, "Def": 12,"Gold": 5000,"Skill Points": 10000},
-    "Undyne": {"Hp": 120, "Atk": 22, "Def": 8,"Gold": 2500,"Skill Points": 7500},
-    "Sans": {"Hp": 100, "Atk": 21, "Def": 7,"Gold": 2000,"Skill Points": 5500}
+    "Toriel": {"Hp": 100, "Atk": 22, "Def": 6,"Gold": 1000,"Skill Points": 1000},
+    "Asgore": {"Hp": 160, "Atk": 23, "Def": 12,"Gold": 5000,"Skill Points": 10000},
+    "Undyne": {"Hp": 130, "Atk": 22, "Def": 8,"Gold": 2500,"Skill Points": 7500},
+    "Sans": {"Hp": 120, "Atk": 21, "Def": 7,"Gold": 2000,"Skill Points": 5500}
 }
 
-Places = ["Ruins", "Waterfall", "End"]
+Places = ["Ruins", "" "Waterfall", "End"]
 
 Php = player["Hp"]
 Patk = player["Atk"]
@@ -377,7 +377,7 @@ while True:
                 while True:
                 
                     if class_choice == "1":
-                        
+                                           
                         player.update({"Class": cl["cl1"]["Class"]})
                         player.update({"Hp": cl["cl1"]["Hp"]})
                         player.update({"Def": cl["cl1"]["Def"]})
@@ -459,11 +459,11 @@ while True:
                                         if item_choice == "1":
                                             if player["Inventory"]["Potion"] > 0:
                                                 player["Hp"] += 10
-                                                
-                                                player["Hp"] = min(player["Hp"], 25)
+                                                            
+                                                player["Hp"] = min(player["Hp"], 40)
                                                 Php = player["Hp"]
                                                 player["Inventory"]["Potion"] -= 1
-                            
+                                        
                                                 print("You used a Potion!")
                                                 print(f"Your HP is now {player['Hp']}")
                                                 print(f"Potions left: {player['Inventory']['Potion']}")
@@ -471,8 +471,19 @@ while True:
                                             else:
                                                 print("No Potions left!")
 
-                                        elif item_choice == "2":
+                                        elif item_choice == "2" or item_choice == "3":
+
+                                                if "True Knife (+Atk)" in player["Inventory"]:
+                                                    use_item1(player, "True Knife (+Atk)")
+
+                                                elif "Heart Locket (+Def)" in player["Inventory"]:
+                                                    use_item2(player, "Heart Locket (+Def)")
+
+                                        elif item_choice == "4":
                                             continue
+
+                                        else:
+                                            print("Invalid!")
 
                                     elif battle == "4":
                                         Spare()
@@ -567,11 +578,11 @@ while True:
                                         if item_choice == "1":
                                             if player["Inventory"]["Potion"] > 0:
                                                 player["Hp"] += 10
-                                                
-                                                player["Hp"] = min(player["Hp"], 25)
+                                                            
+                                                player["Hp"] = min(player["Hp"], 40)
                                                 Php = player["Hp"]
                                                 player["Inventory"]["Potion"] -= 1
-                            
+                                        
                                                 print("You used a Potion!")
                                                 print(f"Your HP is now {player['Hp']}")
                                                 print(f"Potions left: {player['Inventory']['Potion']}")
@@ -579,8 +590,19 @@ while True:
                                             else:
                                                 print("No Potions left!")
 
-                                        elif item_choice == "2":
+                                        elif item_choice == "2" or item_choice == "3":
+
+                                                if "True Knife (+Atk)" in player["Inventory"]:
+                                                    use_item1(player, "True Knife (+Atk)")
+
+                                                elif "Heart Locket (+Def)" in player["Inventory"]:
+                                                    use_item2(player, "Heart Locket (+Def)")
+
+                                        elif item_choice == "4":
                                             continue
+
+                                        else:
+                                            print("Invalid!")
                                             
 
                                     elif battle == "4":
@@ -730,11 +752,11 @@ while True:
                                         if item_choice == "1":
                                             if player["Inventory"]["Potion"] > 0:
                                                 player["Hp"] += 10
-                                                
-                                                player["Hp"] = min(player["Hp"], 25)
+                                                            
+                                                player["Hp"] = min(player["Hp"], 30)
                                                 Php = player["Hp"]
                                                 player["Inventory"]["Potion"] -= 1
-                            
+                                        
                                                 print("You used a Potion!")
                                                 print(f"Your HP is now {player['Hp']}")
                                                 print(f"Potions left: {player['Inventory']['Potion']}")
@@ -742,8 +764,19 @@ while True:
                                             else:
                                                 print("No Potions left!")
 
-                                        elif item_choice == "2":
+                                        elif item_choice == "2" or item_choice == "3":
+
+                                                if "True Knife (+Atk)" in player["Inventory"]:
+                                                    use_item1(player, "True Knife (+Atk)")
+
+                                                elif "Heart Locket (+Def)" in player["Inventory"]:
+                                                    use_item2(player, "Heart Locket (+Def)")
+
+                                        elif item_choice == "4":
                                             continue
+
+                                        else:
+                                            print("Invalid!")
 
                                     elif battle == "4":
                                         Spare()
@@ -837,11 +870,11 @@ while True:
                                         if item_choice == "1":
                                             if player["Inventory"]["Potion"] > 0:
                                                 player["Hp"] += 10
-                                                
-                                                player["Hp"] = min(player["Hp"], 20)
+                                                            
+                                                player["Hp"] = min(player["Hp"], 30)
                                                 Php = player["Hp"]
                                                 player["Inventory"]["Potion"] -= 1
-                            
+                                        
                                                 print("You used a Potion!")
                                                 print(f"Your HP is now {player['Hp']}")
                                                 print(f"Potions left: {player['Inventory']['Potion']}")
@@ -849,8 +882,19 @@ while True:
                                             else:
                                                 print("No Potions left!")
 
-                                        elif item_choice == "2":
+                                        elif item_choice == "2" or item_choice == "3":
+
+                                                if "True Knife (+Atk)" in player["Inventory"]:
+                                                    use_item1(player, "True Knife (+Atk)")
+
+                                                elif "Heart Locket (+Def)" in player["Inventory"]:
+                                                    use_item2(player, "Heart Locket (+Def)")
+
+                                        elif item_choice == "4":
                                             continue
+
+                                        else:
+                                            print("Invalid!")
 
                                     elif battle == "4":
                                         Spare()
@@ -998,11 +1042,11 @@ while True:
                                         if item_choice == "1":
                                             if player["Inventory"]["Potion"] > 0:
                                                 player["Hp"] += 10
-                                                
-                                                player["Hp"] = min(player["Hp"], 25)
+                                                            
+                                                player["Hp"] = min(player["Hp"], 70)
                                                 Php = player["Hp"]
                                                 player["Inventory"]["Potion"] -= 1
-                            
+                                        
                                                 print("You used a Potion!")
                                                 print(f"Your HP is now {player['Hp']}")
                                                 print(f"Potions left: {player['Inventory']['Potion']}")
@@ -1010,8 +1054,19 @@ while True:
                                             else:
                                                 print("No Potions left!")
 
-                                        elif item_choice == "2":
+                                        elif item_choice == "2" or item_choice == "3":
+
+                                                if "True Knife (+Atk)" in player["Inventory"]:
+                                                    use_item1(player, "True Knife (+Atk)")
+
+                                                elif "Heart Locket (+Def)" in player["Inventory"]:
+                                                    use_item2(player, "Heart Locket (+Def)")
+
+                                        elif item_choice == "4":
                                             continue
+
+                                        else:
+                                            print("Invalid!")
 
                                     elif battle == "4":
                                         Spare()
@@ -1105,12 +1160,12 @@ while True:
 
                                         if item_choice == "1":
                                             if player["Inventory"]["Potion"] > 0:
-                                                player["Hp"] += 25
-                                                
-                                                player["Hp"] = min(player["Hp"], 30)
+                                                player["Hp"] += 10
+                                                            
+                                                player["Hp"] = min(player["Hp"], 70)
                                                 Php = player["Hp"]
                                                 player["Inventory"]["Potion"] -= 1
-                            
+                                        
                                                 print("You used a Potion!")
                                                 print(f"Your HP is now {player['Hp']}")
                                                 print(f"Potions left: {player['Inventory']['Potion']}")
@@ -1118,8 +1173,19 @@ while True:
                                             else:
                                                 print("No Potions left!")
 
-                                        elif item_choice == "2":
+                                        elif item_choice == "2" or item_choice == "3":
+
+                                                if "True Knife (+Atk)" in player["Inventory"]:
+                                                    use_item1(player, "True Knife (+Atk)")
+
+                                                elif "Heart Locket (+Def)" in player["Inventory"]:
+                                                    use_item2(player, "Heart Locket (+Def)")
+
+                                        elif item_choice == "4":
                                             continue
+
+                                        else:
+                                            print("Invalid!")
 
                                     elif battle == "4":
                                         Spare()
