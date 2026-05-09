@@ -297,7 +297,7 @@ player = {
     "Hp": 25,
     "Atk": 18,
     "Def": 5,
-    "Gold": 0,
+    "Gold": 2000,
     "Skill Points": 0,
     "Inventory" : {
     "Potion": 3
@@ -350,10 +350,12 @@ Bosses = {
     "Sans": {"Hp": 100, "Atk": 21, "Def": 7,"Gold": 2000,"Skill Points": 5500}
 }
 
+Places = ["Ruins", "Waterfall", "End"]
+
 Php = player["Hp"]
 Patk = player["Atk"]
 Pdef = player["Def"]
-stage = 1
+stage = 0
 max_kills = 4
 while True:
     UI()
@@ -385,8 +387,8 @@ while True:
                         Move()
                         move = input("What should be your next Move? [1/2/3/4]: ")
                         if move == "1":
-                            print(f"\nYou've now entered Dungeon {stage}")
-                            if stage >= 3:
+                            print(f"\nYou've now entered The{Places[stage]}")
+                            if stage >= 2:
                                 print(f"\n=====BOSS BATTLE=====")
 
                                 Bname, Bstats = spawn_boss(Bosses)
@@ -656,8 +658,8 @@ while True:
                         Move()
                         move = input("What should be your next Move? [1/2/3/4]: ")
                         if move == "1":
-                            print(f"\nYou've now entered Dungeon {stage}")
-                            if stage >= 3:
+                            print(f"\nYou've now entered Dungeon {Places[stage]}")
+                            if stage >= 2:
                                 print(f"\n=====BOSS BATTLE=====")
 
                                 Bname, Bstats = spawn_boss(Bosses)
@@ -924,8 +926,8 @@ while True:
                         Move()
                         move = input("What should be your next Move? [1/2/3/4]: ")
                         if move == "1":
-                            print(f"\nYou've now entered Dungeon {stage}")
-                            if stage >= 3:
+                            print(f"\nYou've now entered Dungeon {Places[stage]}")
+                            if stage >= 2:
                                 print(f"\n=====BOSS BATTLE=====")
 
                                 Bname, Bstats = spawn_boss(Bosses)
