@@ -1,20 +1,22 @@
 import random
 
 def UI():
-    print("Welcome to TaleUnder")
+    print(f"\033[33m=====Welcome to TaleUnder=====")
     print("[1] Play")
-    print("[2] Exit")
+    print("[2] Exit\033[0m")
 
 def UI2():
-    print("\nThe rules are simple!")
+    print("\n\033[33mThis game is simple!\033[0m")
     print("Kill The enemies before they kill you")
-    print("Kill or Be Killed!")
-    print("When Your Hp drops to 0, You Lose")
+    print("Because in this world, it's")
+    print("\033[31mKill or Be Killed!")
+    print("When Your Hp drops to 0, You Lose!!\033[0m")
+    print("anyways...")
     print("[1] Start")
     print("[2] Back Out (Exit)")
 
 def Class():
-    print("\nPlease Pick a Class")
+    print("\nPlease Pick a Class:")
     print("[1] Fighter")
     print("[2] Assassin")
     print("[3] Healer")
@@ -126,31 +128,94 @@ def Act():
 def Item():
     i = 1
     print("\n=== Item ===")
-    for item, amount in player["Inventory"].items():
-        print(f"[{i}] {item}: {amount}")
+
+    inventory_items = list(player["Inventory"].items())
+
+    while i <= 3:
+        if i <= len(inventory_items):
+            item, amount = inventory_items[i - 1]
+            print(f"[{i}] {item}: {amount}")
+        else:
+            print(f"[{i}] ---")
         i += 1
-        continue
-    print(f"[{i}] Exit")
 
-def use_item(player, item_name):
+    print("[4] Exit")
 
+def use_item1(player, item_name):    
+    global Patk
+    if item_name in player["Inventory"]:
+    
+        if item_name == "True Knife (+Atk)":
+            if "Assassin" in player["Class"]:
+
+                player["Atk"] += 40
+                cl["cl2"]["Atk"] += 40
+                
+                Patk = player["Atk"]
+
+                print("You equipped True Knife!")
+                print("Attack increased by 40!")
+
+                del player["Inventory"]["True Knife (+Atk)"]
+
+            elif "Healer" in player["Class"]:
+                player["Atk"] += 40
+                cl["cl3"]["Atk"] += 40
+                
+                Patk = player["Atk"]
+
+                print("You equipped True Knife!")
+                print("Attack increased by 40!")
+
+                del player["Inventory"]["True Knife (+Atk)"]
+            
+            else:
+                player["Atk"] += 40
+                Patk = player["Atk"]
+
+                print("You equipped True Knife!")
+                print("Attack increased by 40!")
+
+                del player["Inventory"]["True Knife (+Atk)"]
+
+def use_item2(player, item_name):    
+    global Pdef
     if item_name in player["Inventory"]:
 
-        if item_name == "True Knife (+Atk)":
+        if item_name == "Heart Locket (+Def)":
+            if "Fighter" in player["Class"]:
+                
+                player["Def"] += 40
+                cl["cl1"]["Def"] += 40      
+                
+                Pdef = player["Def"]
 
-            player["Atk"] += 40
+                print("You equipped Heart Locket!")
+                print("Defense increased by 40!")
 
-            print("You equipped True Knife!")
-            print("Attack increased by 40!")
-            del player["Inventory"]["True Knife (+Atk)"]
+                del player["Inventory"]["Heart Locket (+Def)"]
 
-        elif item_name == "Heart Locket (+Def)":
+            elif "Healer" in player["Class"]:
+                
+                player["Def"] += 40
+                cl["cl3"]["Def"] += 40      
+                
+                Pdef = player["Def"]
 
-            player["Def"] += 40
+                print("You equipped Heart Locket!")
+                print("Defense increased by 40!")
 
-            print("You equipped Heart Locket!")
-            print("Defense increased by 40!")
-            del player["Inventory"]["Heart Locket (+Def)"]
+                del player["Inventory"]["Heart Locket (+Def)"]
+            
+            else:
+                player["Def"] += 40   
+                
+                Pdef = player["Def"]
+
+                print("You equipped Heart Locket!")
+                print("Defense increased by 40!")
+
+                del player["Inventory"]["Heart Locket (+Def)"]
 
 def Spare():
     print("\n=== Spare ===")
@@ -199,7 +264,7 @@ def player_atk(Mhp, Patk):
     return Mhp
 
 def player_atk_boss(Bhp, Patk):
-    Pdamage = Patk - Bdef
+    Pdamage = Patk - Mdef
     Bhp -= Pdamage
     print(f"You attacked {Bname} and inflicted {Pdamage} damage")
     print(f"{Bname} HP is now {Bhp}\n")
@@ -232,13 +297,31 @@ player = {
     "Hp": 25,
     "Atk": 18,
     "Def": 5,
-    "Gold": 1000,
+    "Gold": 0,
     "Skill Points": 0,
     "Inventory" : {
     "Potion": 3
     }
 }
 
+cl = {
+        "cl1": {
+        "Class" : "Fighter",
+        "Hp" : 25,
+        "Def" : 10
+    },
+        "cl2": {
+        "Class" : "Assassin",
+        "Hp" : 20,
+        "Atk" : 25
+    },
+        "cl3": {
+        "Class" : "Healer",
+        "hp" : 30,
+        "Atk" : 13,
+        "Def" : 7
+        }
+}
 shop = {
     "Potion": {
         "Price": 25
@@ -285,19 +368,17 @@ while True:
 
             UI2()
             act = input("Shall we start the Adventure? [1/2]: ")
+            if act == "1":
+                Class()
+                class_choice = input("What do you prefer? [1/2/3]: ")
 
-            Class()
-            class_choice = input("What do you prefer? [1/2/3]: ")
-
-            while True:
-                if act == "1":
+                while True:
+                
                     if class_choice == "1":
-                        cl = "Fighter"
-                        hp = 25
-                        df = 10
-                        player.update({"Class": cl})
-                        player.update({"Hp": hp})
-                        player.update({"Def": df})
+                        
+                        player.update({"Class": cl["cl1"]["Class"]})
+                        player.update({"Hp": cl["cl1"]["Hp"]})
+                        player.update({"Def": cl["cl1"]["Def"]})
                         Pdef = player["Def"]
                         Php = player["Hp"]
                         print("\nPerfect! Now then...")
@@ -329,11 +410,12 @@ while True:
 
                                             boss_rewards(player, Bstats)
 
-                                            print("Boss Fight Cleared!")
-                                            break
+                                            print("\033[32mBoss Fight Cleared!\033[0m")
+                                            print("\033[32mTHANK YOU FOR PLAYING!!!\033[0m")
+                                            quit()
 
                                         if Php <= 0:
-                                            print("You died!")
+                                            print("\033[31mYou died!\033[0m")
                                             print("Skill Issue! :p")
                                             quit()
 
@@ -357,9 +439,14 @@ while True:
                                                 print("Not Enough Skill Points!")
 
                                         elif act_choice == "3":
-                                            print(f"You intimidated {Bname}!")
-                                            print(f"{Bname}'s atk Dropped!")
-                                            Batk = max(1, int(Batk * 0.9))
+                                            if player["Skill Points"] >= 50:
+                                                print(f"You intimidated {Bname}!")
+                                                print(f"{Bname}'s atk Dropped!")
+                                                Batk = max(1, int(Batk * 0.9))
+                                                player["Skill Points"] -= 50
+                                            
+                                            else:
+                                                print("Not Enough Skill Points!")
 
                                         elif act_choice == "4":
                                             continue
@@ -422,10 +509,10 @@ while True:
                                             rewards(player, Mstats)
 
                                             kills += 1
-                                            print(f"Monsters defeated: {kills}/{max_kills}")
+                                            print(f"\033[33mMonsters defeated: {kills}/{max_kills}\033[0m")
 
                                             if kills >= max_kills:
-                                                print("Dungeon Cleared!")
+                                                print("\033[32mDungeon Cleared!\033[0m")
                                                 stage += 1
                                                 max_kills += 2
                                                 break
@@ -436,7 +523,7 @@ while True:
                                             continue
 
                                         if Php <= 0:
-                                            print("You died!")
+                                            print("\033[31mYou died!\033[0m")
                                             print("Skill Issue! :p")
                                             quit()
 
@@ -460,9 +547,14 @@ while True:
                                                 print("Not Enough Skill Points!")
 
                                         elif act_choice == "3":
-                                            print(f"You intimidated {Mname}!")
-                                            print(f"{Mname}'s atk Dropped!")
-                                            Matk = max(1, int(Matk * 0.9))
+                                            if player["Skill Points"] >= 50:
+                                                print(f"You intimidated {Bname}!")
+                                                print(f"{Bname}'s atk Dropped!")
+                                                Batk = max(1, int(Batk * 0.9))
+                                                player["Skill Points"] -= 50
+                                            
+                                            else:
+                                                print("Not Enough Skill Points!")
 
                                         elif act_choice == "4":
                                             continue
@@ -514,7 +606,7 @@ while True:
 
                             elif decision == "2":
                                 print("Come Again! ^^")
-                                break
+                                continue
                             else:
                                 print("Invalid!")
 
@@ -537,11 +629,14 @@ while True:
                                 else:
                                     print("No Potions left!")
 
-                            elif item_choice == "2":
-                                use_item(player, "True Knife (+Atk)")
+                            elif item_choice == "2" or item_choice == "3":
 
-                            elif item_choice == "3":
-                                use_item(player, "Heart Locket (+Def)")
+                                    if "True Knife (+Atk)" in player["Inventory"]:
+                                        use_item1(player, "True Knife (+Atk)")
+
+                                    elif "Heart Locket (+Def)" in player["Inventory"]:
+                                        use_item2(player, "Heart Locket (+Def)")
+
 
                             elif item_choice == "4":
                                 continue
@@ -550,13 +645,11 @@ while True:
                                 print("Invalid!")
 
 
+
                     elif class_choice == "2":
-                        cl = "Assassin"
-                        hp = 20
-                        atk = 25
-                        player.update({"Class": cl})
-                        player.update({"Hp": hp})
-                        player.update({"Atk": atk})
+                        player.update({"Class": cl["cl2"]["Class"]})
+                        player.update({"Hp": cl["cl2"]["Hp"]})
+                        player.update({"Atk": cl["cl2"]["Atk"]})
                         Patk = player["Atk"]
                         Php = player["Hp"]
                         print("\nPerfect! Now then...")
@@ -588,11 +681,12 @@ while True:
 
                                             boss_rewards(player, Bstats)
 
-                                            print("Boss Fight Cleared!")
-                                            break
+                                            print("\033[32mBoss Fight Cleared!\033[0m")
+                                            print("\033[32mTHANK YOU FOR PLAYING!!!\033[0m")
+                                            quit()
 
                                         if Php <= 0:
-                                            print("You died!")
+                                            print("\033[31mYou died!\033[0m")
                                             print("Skill Issue! :p")
                                             quit()
 
@@ -616,9 +710,14 @@ while True:
                                                 print("Not Enough Skill Points!")
 
                                         elif act_choice == "3":
-                                            print(f"You intimidated {Bname}!")
-                                            print(f"{Bname}'s atk Dropped!")
-                                            Batk = max(1, int(Batk * 0.9))
+                                            if player["Skill Points"] >= 50:
+                                                print(f"You intimidated {Bname}!")
+                                                print(f"{Bname}'s atk Dropped!")
+                                                Batk = max(1, int(Batk * 0.9))
+                                                player["Skill Points"] -= 50
+                                            
+                                            else:
+                                                print("Not Enough Skill Points!")
 
                                         elif act_choice == "4":
                                             continue
@@ -681,10 +780,10 @@ while True:
                                             rewards(player, Mstats)
 
                                             kills += 1
-                                            print(f"Monsters defeated: {kills}/{max_kills}")
+                                            print(f"\033[33mMonsters defeated: {kills}/{max_kills}\033[0m")
 
                                             if kills >= max_kills:
-                                                print("Dungeon Cleared!")
+                                                print("\033[32mDungeon Cleared!\033[0m")
                                                 stage += 1
                                                 max_kills += 2
                                                 break
@@ -695,7 +794,7 @@ while True:
                                             continue
 
                                         if Php <= 0:
-                                            print("You died!")
+                                            print("\033[31mYou died!\033[0m")
                                             print("Skill Issue! :p")
                                             quit()
 
@@ -718,9 +817,14 @@ while True:
                                                 print("Not Enough Skill Points!")
 
                                         elif act_choice == "3":
-                                            print(f"You intimidated {Mname}!")
-                                            print(f"{Mname}'s atk Dropped!")
-                                            Matk = max(1, int(Matk * 0.9))
+                                            if player["Skill Points"] >= 50:
+                                                print(f"You intimidated {Bname}!")
+                                                print(f"{Bname}'s atk Dropped!")
+                                                Batk = max(1, int(Batk * 0.9))
+                                                player["Skill Points"] -= 50
+                                            
+                                            else:
+                                                print("Not Enough Skill Points!")
 
                                         elif act_choice == "4":
                                             continue
@@ -771,7 +875,7 @@ while True:
 
                             elif decision == "2":
                                 print("Come Again! ^^")
-                                break
+                                continue
                             else:
                                 print("Invalid!")
 
@@ -794,11 +898,13 @@ while True:
                                 else:
                                     print("No Potions left!")
 
-                            elif item_choice == "2":
-                                use_item(player, "True Knife (+Atk)")
+                            elif item_choice == "2" or item_choice == "3":
 
-                            elif item_choice == "3":
-                                use_item(player, "Heart Locket (+Def)")
+                                    if "True Knife (+Atk)" in player["Inventory"]:
+                                        use_item1(player, "True Knife (+Atk)")
+
+                                    elif "Heart Locket (+Def)" in player["Inventory"]:
+                                        use_item2(player, "Heart Locket (+Def)")
                             
                             elif item_choice == "4":
                                 continue
@@ -807,13 +913,9 @@ while True:
                                 print("Invalid!")
 
                     elif class_choice == "3":
-                        cl = "Healer"
-                        hp = 30
-                        atk = 13
-                        df = 7
-                        player.update({"Class": cl})
-                        player.update({"Hp": hp})
-                        player.update({"Def": df})
+                        player.update({"Class": cl["cl3"]["Class"]})
+                        player.update({"Hp": cl["cl3"]["Hp"]})
+                        player.update({"Def": cl["cl3"]["Def"]})
                         Patk = player["Atk"]
                         Pdef = player["Def"]
                         Php = player["Hp"]
@@ -847,11 +949,12 @@ while True:
 
                                             boss_rewards(player, Bstats)
 
-                                            print("Boss Fight Cleared!")
-                                            break
+                                            print("\033[32mBoss Fight Cleared!\033[0m")
+                                            print("\033[32mTHANK YOU FOR PLAYING!!!\033[0m")
+                                            quit()
 
                                         if Php <= 0:
-                                            print("You died!")
+                                            print("\033[31mYou died!\033[0m")
                                             print("Skill Issue! :p")
                                             quit()
 
@@ -875,9 +978,14 @@ while True:
                                                 print("Not Enough Skill Points!")
 
                                         elif act_choice == "3":
-                                            print(f"You intimidated {Bname}!")
-                                            print(f"{Bname}'s atk Dropped!")
-                                            Batk = max(1, int(Batk * 0.9))
+                                            if player["Skill Points"] >= 50:
+                                                print(f"You intimidated {Bname}!")
+                                                print(f"{Bname}'s atk Dropped!")
+                                                Batk = max(1, int(Batk * 0.9))
+                                                player["Skill Points"] -= 50
+                                            
+                                            else:
+                                                print("Not Enough Skill Points!")
 
                                         elif act_choice == "4":
                                             continue
@@ -941,10 +1049,10 @@ while True:
                                             rewards(player, Mstats)
 
                                             kills += 1
-                                            print(f"Monsters defeated: {kills}/{max_kills}")
+                                            print(f"\033[33mMonsters defeated: {kills}/{max_kills}\033[0m")
 
                                             if kills >= max_kills:
-                                                print("Dungeon Cleared!")
+                                                print("\033[32mDungeon Cleared!\033[0m")
                                                 stage += 1
                                                 max_kills += 2
                                                 break
@@ -955,7 +1063,7 @@ while True:
                                             continue
 
                                         if Php <= 0:
-                                            print("You died!")
+                                            print("\033[31mYou died!\033[0m")
                                             print("Skill Issue! :p")
                                             quit()
 
@@ -978,9 +1086,14 @@ while True:
                                                 print("Not Enough Skill Points!")
 
                                         elif act_choice == "3":
-                                            print(f"You intimidated {Mname}!")
-                                            print(f"{Mname}'s atk Dropped!")
-                                            Matk = max(1, int(Matk * 0.9))
+                                            if player["Skill Points"] >= 50:
+                                                print(f"You intimidated {Bname}!")
+                                                print(f"{Bname}'s atk Dropped!")
+                                                Batk = max(1, int(Batk * 0.9))
+                                                player["Skill Points"] -= 50
+                                            
+                                            else:
+                                                print("Not Enough Skill Points!")
 
                                         elif act_choice == "4":
                                             continue
@@ -1031,7 +1144,7 @@ while True:
 
                             elif decision == "2":
                                 print("Come Again! ^^")
-                                break
+                                continue
                             else:
                                 print("Invalid!")
 
@@ -1054,19 +1167,40 @@ while True:
                                 else:
                                     print("No Potions left!")
 
-                            elif item_choice == "2":
-                                use_item(player, "True Knife (+Atk)")
+                            elif item_choice == "2" or item_choice == "3":
 
-                            elif item_choice == "3":
-                                use_item(player, "Heart Locket (+Def)")
+                                    if "True Knife (+Atk)" in player["Inventory"]:
+                                        use_item1(player, "True Knife (+Atk)")
+
+                                    elif "Heart Locket (+Def)" in player["Inventory"]:
+                                        use_item2(player, "Heart Locket (+Def)")
 
                             elif item_choice == "4":
                                 continue
 
                             else:
                                 print("Invalid!")
+                                
+                    else:
+                        
+                        print("Invalid!")
+                        break
+
+            elif act == "2":
+
+                print("You've quit the game")
+                quit()
+
+            else:
+
+                print("Invalid!")
+
+        elif choice == "2":
+
+            print("You've quit the game")
+            quit()
 
         else:
-            print("You've quit the game")
+
+            print("Invalid!")
             break
-    break
