@@ -141,6 +141,13 @@ def Act():
     print("[3] Intimidate")
     print("[4] Back")
 
+def use():
+    print("\n[1] Equip")
+    print("[2] Info")
+    print("[3] Drop")
+    print("[4] Back")
+
+
 #Move set [3] shows user's current item/s and the amount
 def Item():
     i = 1
@@ -509,10 +516,36 @@ while True:
                                         elif item_choice == "2" or item_choice == "3":
 
                                                 if "True Knife (+Atk)" in player["Inventory"]:
-                                                    use_item1(player, "True Knife (+Atk)")
+                                                    use()
+                                                    gamit =input(f"What do we do True Knife (+Atk)?: ")
+                                                    if gamit == "1":
+                                                        use_item1(player, "True Knife (+Atk)")
+                                                    elif gamit == "2":
+                                                        print("The highest attack stat (+40 Atk) in the game")
+                                                        print("Once equipped the player will be in a Killing spree!!")
+                                                        
+                                                    elif gamit == "3":
+                                                        print("You dropped True Knife (+Atk)!!")
+                                                        print("This item will no longer be ingame!!!")
+                                                        del player["Inventory"]["True Knife (+Atk)"]
+                                                    elif gamit == "4":
+                                                        continue
 
                                                 elif "Heart Locket (+Def)" in player["Inventory"]:
-                                                    use_item2(player, "Heart Locket (+Def)")
+                                                    use()
+                                                    gamit =input(f"What do we do Heart Locket (+Def)?: ")
+                                                    if gamit == "1":
+                                                        use_item2(player, "Heart Locket (+Def)")
+                                                    elif gamit == "2":
+                                                        print("The highest Def stat (+40 Def) in the game")
+                                                        print("Once equipped the player will be unstoppable!!")
+                                                    elif gamit == "3":
+                                                        print("You dropped Heart Locket (+Def)!!")
+                                                        print("This item will no longer be ingame!!!")
+                                                        del player["Inventory"]["Heart Locket (+Def)"]
+                                                    elif gamit == "4":
+                                                        continue
+                                                    
 
                                         elif item_choice == "4":
                                             continue
@@ -629,10 +662,36 @@ while True:
                                         elif item_choice == "2" or item_choice == "3":
 
                                                 if "True Knife (+Atk)" in player["Inventory"]:
-                                                    use_item1(player, "True Knife (+Atk)")
+                                                    use()
+                                                    gamit =input(f"What do we do True Knife (+Atk)?: ")
+                                                    if gamit == "1":
+                                                        use_item1(player, "True Knife (+Atk)")
+                                                    elif gamit == "2":
+                                                        print("The highest attack stat (+40 Atk) in the game")
+                                                        print("Once equipped the player will be in a Killing spree!!")
+                                                        
+                                                    elif gamit == "3":
+                                                        print("You dropped True Knife (+Atk)!!")
+                                                        print("This item will no longer be ingame!!!")
+                                                        del player["Inventory"]["True Knife (+Atk)"]
+                                                    elif gamit == "4":
+                                                        continue
 
                                                 elif "Heart Locket (+Def)" in player["Inventory"]:
-                                                    use_item2(player, "Heart Locket (+Def)")
+                                                    use()
+                                                    gamit =input(f"What do we do Heart Locket (+Def)?: ")
+                                                    if gamit == "1":
+                                                        use_item2(player, "Heart Locket (+Def)")
+                                                    elif gamit == "2":
+                                                        print("The highest Def stat (+40 Def) in the game")
+                                                        print("Once equipped the player will be unstoppable!!")
+                                                   
+                                                    elif gamit == "3":
+                                                        print("You dropped Heart Locket (+Def)!!")
+                                                        print("This item will no longer be ingame!!!")
+                                                        del player["Inventory"]["Heart Locket (+Def)"]
+                                                    elif gamit == "4":
+                                                        continue
 
                                         elif item_choice == "4":
                                             continue
@@ -689,11 +748,36 @@ while True:
 
                             elif item_choice == "2" or item_choice == "3":
 
-                                    if "True Knife (+Atk)" in player["Inventory"]:
-                                        use_item1(player, "True Knife (+Atk)")
+                                                if "True Knife (+Atk)" in player["Inventory"]:
+                                                    use()
+                                                    gamit =input(f"What do we do True Knife (+Atk)?: ")
+                                                    if gamit == "1":
+                                                        use_item1(player, "True Knife (+Atk)")
+                                                    elif gamit == "2":
+                                                        print("The highest attack stat (+40 Atk) in the game")
+                                                        print("Once equipped the player will be in a Killing spree!!")
+                                                        
+                                                    elif gamit == "3":
+                                                        print("You dropped True Knife (+Atk)!!")
+                                                        print("This item will no longer be ingame!!!")
+                                                        del player["Inventory"]["True Knife (+Atk)"]
+                                                    elif gamit == "4":
+                                                        continue
 
-                                    elif "Heart Locket (+Def)" in player["Inventory"]:
-                                        use_item2(player, "Heart Locket (+Def)")
+                                                elif "Heart Locket (+Def)" in player["Inventory"]:
+                                                    use()
+                                                    gamit =input(f"What do we do Heart Locket (+Def)?: ")
+                                                    if gamit == "1":
+                                                        use_item2(player, "Heart Locket (+Def)")
+                                                    elif gamit == "2":
+                                                        print("The highest Def stat (+40 Def) in the game")
+                                                        print("Once equipped the player will be unstoppable!!")
+                                                    elif gamit == "3":
+                                                        print("You dropped Heart Locket (+Def)!!")
+                                                        print("This item will no longer be ingame!!!")
+                                                        del player["Inventory"]["Heart Locket (+Def)"]
+                                                    elif gamit == "4":
+                                                        continue
 
 
                             elif item_choice == "4":
@@ -798,10 +882,36 @@ while True:
                                         elif item_choice == "2" or item_choice == "3":
 
                                                 if "True Knife (+Atk)" in player["Inventory"]:
-                                                    use_item1(player, "True Knife (+Atk)")
+                                                    use()
+                                                    gamit =input(f"What do we do True Knife (+Atk)?: ")
+                                                    if gamit == "1":
+                                                        use_item1(player, "True Knife (+Atk)")
+                                                    elif gamit == "2":
+                                                        print("The highest attack stat (+40 Atk) in the game")
+                                                        print("Once equipped the player will be in a Killing spree!!")
+                                                        
+                                                    elif gamit == "3":
+                                                        print("You dropped True Knife (+Atk)!!")
+                                                        print("This item will no longer be ingame!!!")
+                                                        del player["Inventory"]["True Knife (+Atk)"]
+                                                    elif gamit == "4":
+                                                        continue
 
                                                 elif "Heart Locket (+Def)" in player["Inventory"]:
-                                                    use_item2(player, "Heart Locket (+Def)")
+                                                    use()
+                                                    gamit =input(f"What do we do Heart Locket (+Def)?: ")
+                                                    if gamit == "1":
+                                                        use_item2(player, "Heart Locket (+Def)")
+                                                    elif gamit == "2":
+                                                        print("The highest Def stat (+40 Def) in the game")
+                                                        print("Once equipped the player will be unstoppable!!")
+                
+                                                    elif gamit == "3":
+                                                        print("You dropped Heart Locket (+Def)!!")
+                                                        print("This item will no longer be ingame!!!")
+                                                        del player["Inventory"]["Heart Locket (+Def)"]
+                                                    elif gamit == "4":
+                                                        continue
 
                                         elif item_choice == "4":
                                             continue
@@ -916,10 +1026,36 @@ while True:
                                         elif item_choice == "2" or item_choice == "3":
 
                                                 if "True Knife (+Atk)" in player["Inventory"]:
-                                                    use_item1(player, "True Knife (+Atk)")
+                                                    use()
+                                                    gamit =input(f"What do we do True Knife (+Atk)?: ")
+                                                    if gamit == "1":
+                                                        use_item1(player, "True Knife (+Atk)")
+                                                    elif gamit == "2":
+                                                        print("The highest attack stat (+40 Atk) in the game")
+                                                        print("Once equipped the player will be in a Killing spree!!")
+                                                        
+                                                    elif gamit == "3":
+                                                        print("You dropped True Knife (+Atk)!!")
+                                                        print("This item will no longer be ingame!!!")
+                                                        del player["Inventory"]["True Knife (+Atk)"]
+                                                    elif gamit == "4":
+                                                        continue
 
                                                 elif "Heart Locket (+Def)" in player["Inventory"]:
-                                                    use_item2(player, "Heart Locket (+Def)")
+                                                    use()
+                                                    gamit =input(f"What do we do Heart Locket (+Def)?: ")
+                                                    if gamit == "1":
+                                                        use_item2(player, "Heart Locket (+Def)")
+                                                    elif gamit == "2":
+                                                        print("The highest Def stat (+40 Def) in the game")
+                                                        print("Once equipped the player will be unstoppable!!")
+                                                        
+                                                    elif gamit == "3":
+                                                        print("You dropped Heart Locket (+Def)!!")
+                                                        print("This item will no longer be ingame!!!")
+                                                        del player["Inventory"]["Heart Locket (+Def)"]
+                                                    elif gamit == "4":
+                                                        continue
 
                                         elif item_choice == "4":
                                             continue
@@ -976,11 +1112,37 @@ while True:
 
                             elif item_choice == "2" or item_choice == "3":
 
-                                    if "True Knife (+Atk)" in player["Inventory"]:
-                                        use_item1(player, "True Knife (+Atk)")
+                                                if "True Knife (+Atk)" in player["Inventory"]:
+                                                    use()
+                                                    gamit =input(f"What do we do True Knife (+Atk)?: ")
+                                                    if gamit == "1":
+                                                        use_item1(player, "True Knife (+Atk)")
+                                                    elif gamit == "2":
+                                                        print("The highest attack stat (+40 Atk) in the game")
+                                                        print("Once equipped the player will be in a Killing spree!!")
+                                                        
+                                                    elif gamit == "3":
+                                                        print("You dropped True Knife (+Atk)!!")
+                                                        print("This item will no longer be ingame!!!")
+                                                        del player["Inventory"]["True Knife (+Atk)"]
+                                                    elif gamit == "4":
+                                                        continue
 
-                                    elif "Heart Locket (+Def)" in player["Inventory"]:
-                                        use_item2(player, "Heart Locket (+Def)")
+                                                elif "Heart Locket (+Def)" in player["Inventory"]:
+                                                    use()
+                                                    gamit =input(f"What do we do Heart Locket (+Def)?: ")
+                                                    if gamit == "1":
+                                                        use_item2(player, "Heart Locket (+Def)")
+                                                    elif gamit == "2":
+                                                        print("The highest Def stat (+40 Def) in the game")
+                                                        print("Once equipped the player will be unstoppable!!")
+                                                        
+                                                    elif gamit == "3":
+                                                        print("You dropped Heart Locket (+Def)!!")
+                                                        print("This item will no longer be ingame!!!")
+                                                        del player["Inventory"]["Heart Locket (+Def)"]
+                                                    elif gamit == "4":
+                                                        continue
                             
                             elif item_choice == "4":
                                 continue
@@ -1088,10 +1250,36 @@ while True:
                                         elif item_choice == "2" or item_choice == "3":
 
                                                 if "True Knife (+Atk)" in player["Inventory"]:
-                                                    use_item1(player, "True Knife (+Atk)")
+                                                    use()
+                                                    gamit =input(f"What do we do True Knife (+Atk)?: ")
+                                                    if gamit == "1":
+                                                        use_item1(player, "True Knife (+Atk)")
+                                                    elif gamit == "2":
+                                                        print("The highest attack stat (+40 Atk) in the game")
+                                                        print("Once equipped the player will be in a Killing spree!!")
+                                                        
+                                                    elif gamit == "3":
+                                                        print("You dropped True Knife (+Atk)!!")
+                                                        print("This item will no longer be ingame!!!")
+                                                        del player["Inventory"]["True Knife (+Atk)"]
+                                                    elif gamit == "4":
+                                                        continue
 
                                                 elif "Heart Locket (+Def)" in player["Inventory"]:
-                                                    use_item2(player, "Heart Locket (+Def)")
+                                                    use()
+                                                    gamit =input(f"What do we do Heart Locket (+Def)?: ")
+                                                    if gamit == "1":
+                                                        use_item2(player, "Heart Locket (+Def)")
+                                                    elif gamit == "2":
+                                                        print("The highest Def stat (+40 Def) in the game")
+                                                        print("Once equipped the player will be unstoppable!!")
+                                            
+                                                    elif gamit == "3":
+                                                        print("You dropped Heart Locket (+Def)!!")
+                                                        print("This item will no longer be ingame!!!")
+                                                        del player["Inventory"]["Heart Locket (+Def)"]
+                                                    elif gamit == "4":
+                                                        continue
 
                                         elif item_choice == "4":
                                             continue
@@ -1207,10 +1395,36 @@ while True:
                                         elif item_choice == "2" or item_choice == "3":
 
                                                 if "True Knife (+Atk)" in player["Inventory"]:
-                                                    use_item1(player, "True Knife (+Atk)")
+                                                    use()
+                                                    gamit =input(f"What do we do True Knife (+Atk)?: ")
+                                                    if gamit == "1":
+                                                        use_item1(player, "True Knife (+Atk)")
+                                                    elif gamit == "2":
+                                                        print("The highest attack stat (+40 Atk) in the game")
+                                                        print("Once equipped the player will be in a Killing spree!!")
+                                                        
+                                                    elif gamit == "3":
+                                                        print("You dropped True Knife (+Atk)!!")
+                                                        print("This item will no longer be ingame!!!")
+                                                        del player["Inventory"]["True Knife (+Atk)"]
+                                                    elif gamit == "4":
+                                                        continue
 
                                                 elif "Heart Locket (+Def)" in player["Inventory"]:
-                                                    use_item2(player, "Heart Locket (+Def)")
+                                                    use()
+                                                    gamit =input(f"What do we do Heart Locket (+Def)?: ")
+                                                    if gamit == "1":
+                                                        use_item2(player, "Heart Locket (+Def)")
+                                                    elif gamit == "2":
+                                                        print("The highest Def stat (+40 Def) in the game")
+                                                        print("Once equipped the player will be unstoppable!!")
+                                                        
+                                                    elif gamit == "3":
+                                                        print("You dropped Heart Locket (+Def)!!")
+                                                        print("This item will no longer be ingame!!!")
+                                                        del player["Inventory"]["Heart Locket (+Def)"]
+                                                    elif gamit == "4":
+                                                        continue
 
                                         elif item_choice == "4":
                                             continue
@@ -1268,11 +1482,37 @@ while True:
 
                             elif item_choice == "2" or item_choice == "3":
 
-                                    if "True Knife (+Atk)" in player["Inventory"]:
-                                        use_item1(player, "True Knife (+Atk)")
+                                                if "True Knife (+Atk)" in player["Inventory"]:
+                                                    use()
+                                                    gamit =input(f"What do we do True Knife (+Atk)?: ")
+                                                    if gamit == "1":
+                                                        use_item1(player, "True Knife (+Atk)")
+                                                    elif gamit == "2":
+                                                        print("The highest attack stat (+40 Atk) in the game")
+                                                        print("Once equipped the player will be in a Killing spree!!")
+                                                        
+                                                    elif gamit == "3":
+                                                        print("You dropped True Knife (+Atk)!!")
+                                                        print("This item will no longer be ingame!!!")
+                                                        del player["Inventory"]["True Knife (+Atk)"]
+                                                    elif gamit == "4":
+                                                        continue
 
-                                    elif "Heart Locket (+Def)" in player["Inventory"]:
-                                        use_item2(player, "Heart Locket (+Def)")
+                                                elif "Heart Locket (+Def)" in player["Inventory"]:
+                                                    use()
+                                                    gamit =input(f"What do we do Heart Locket (+Def)?: ")
+                                                    if gamit == "1":
+                                                        use_item2(player, "Heart Locket (+Def)")
+                                                    elif gamit == "2":
+                                                        print("The highest Def stat (+40 Def) in the game")
+                                                        print("Once equipped the player will be unstoppable!!")
+                                                        
+                                                    elif gamit == "3":
+                                                        print("You dropped Heart Locket (+Def)!!")
+                                                        print("This item will no longer be ingame!!!")
+                                                        del player["Inventory"]["Heart Locket (+Def)"]
+                                                    elif gamit == "4":
+                                                        continue
 
                             elif item_choice == "4":
                                 continue
