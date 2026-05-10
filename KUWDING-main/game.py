@@ -1,3 +1,11 @@
+# DE LEON, CHRISTIAN
+# GUEVARRA, KRISTIANELLE
+# RIVERA, RENZ LUI
+# MANGANTI, JUSTIN REY
+# MENDOZA, JOHN DAVID
+# PATIO, ETHAN MIGUEL
+# TALANAY, CLARENCE NATHAN LEE
+
 import random
 #User interface where user can choose to play or exit the game
 def UI():
