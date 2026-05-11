@@ -355,7 +355,10 @@ cl = {
         "Class" : "Healer",
         "Hp" : 70,
         "Atk" : 14,
-        "Def" : 7
+        "Def" : 7,
+        "Inventory" : {
+            "Potion": 7
+            }
         }
 }
 #Available items and their price inside shop/ UI shop
@@ -381,10 +384,10 @@ monsters = {
 }
 #Types of bosses with their different stats and rewards
 Bosses = {
-    "Toriel": {"Hp": 100, "Atk": 22, "Def": 6,"Gold": 1000,"Skill Points": 1000},
-    "Asgore": {"Hp": 160, "Atk": 23, "Def": 12,"Gold": 5000,"Skill Points": 10000},
-    "Undyne": {"Hp": 130, "Atk": 22, "Def": 8,"Gold": 2500,"Skill Points": 7500},
-    "Sans": {"Hp": 120, "Atk": 21, "Def": 7,"Gold": 2000,"Skill Points": 5500}
+    "Toriel": {"Hp": 500, "Atk": 22, "Def": 6,"Gold": 1000,"Skill Points": 1000},
+    "Asgore": {"Hp": 200, "Atk": 23, "Def": 12,"Gold": 5000,"Skill Points": 10000},
+    "Undyne": {"Hp": 230, "Atk": 22, "Def": 8,"Gold": 2500,"Skill Points": 7500},
+    "Sans": {"Hp": 320, "Atk": 21, "Def": 7,"Gold": 2000,"Skill Points": 5500}
 }
 #Viriable for types of places, player status, current stage, and max skills in a battle
 Places = ["Ruins", "Waterfall", "End"]
@@ -1158,7 +1161,6 @@ while True:
                         Patk = player["Atk"]
                         Pdef = player["Def"]
                         Php = player["Hp"]
-                        player["Inventory"]["Potion"] = 7
                         print("\nPerfect! Now then...")
                         Move()
                         move = input("What should be your next Move? [1/2/3/4]: ")
@@ -1206,13 +1208,12 @@ while True:
 
                                         elif act_choice == "2":
                                             if player["Skill Points"] >= 100:
-                                                dmg = player["Atk"] * 2
-                                                print("Power Strike! Massive damage!")
-                                                Bhp -= dmg
+                                                heal = player["Hp"] * random.choice([2, 3])
+                                                print("Flawless Heal!")
+                                                player["Hp"] = heal
+                                                Php = heal
                                                 player["Skill Points"] -= 100
-                                                
-                                                print(f"You dealt {dmg} damage!")
-                                            
+                                                print(f"Your HP is now {player['Hp']}")
                                             else:
                                                 print("Not Enough Skill Points!")
 
@@ -1234,7 +1235,7 @@ while True:
 
                                         if item_choice == "1":
                                             if player["Inventory"]["Potion"] > 0:
-                                                player["Hp"] += 10
+                                                player["Hp"] += 25
                                                             
                                                 player["Hp"] = min(player["Hp"], 70)
                                                 Php = player["Hp"]
@@ -1352,7 +1353,7 @@ while True:
 #Healer special skill
                                         elif act_choice == "2":
                                             if player["Skill Points"] >= 100:
-                                                heal = player["Hp"] * random.choice([1, 2, 3])
+                                                heal = player["Hp"] * random.choice([2, 3])
                                                 print("Flawless Heal!")
                                                 player["Hp"] = heal
                                                 Php = heal
@@ -1379,7 +1380,7 @@ while True:
 
                                         if item_choice == "1":
                                             if player["Inventory"]["Potion"] > 0:
-                                                player["Hp"] += 10
+                                                player["Hp"] += 25
                                                             
                                                 player["Hp"] = min(player["Hp"], 70)
                                                 Php = player["Hp"]
@@ -1467,7 +1468,7 @@ while True:
 
                             if item_choice == "1":
                                 if player["Inventory"]["Potion"] > 0:
-                                    player["Hp"] += 10
+                                    player["Hp"] += 25
                                                 
                                     player["Hp"] = min(player["Hp"], 25)
                                     Php = player["Hp"]
